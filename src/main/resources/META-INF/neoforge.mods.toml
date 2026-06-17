@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+credits="Globox"
+authors="Herobrot"
+description='''
+Adds tiers/modifiers for tools/armors and even more! Inspired from TieredZ's Globox
+'''
+[[mixins]]
+config="${mod_id}.mixins.json"
+[[dependencies.tieredneo]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.tieredneo]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.tieredneo]]
+modId="cloth_config"
+type = "required"
+versionRange="[15.0.0,)"
+ordering="AFTER"
+side="BOTH"

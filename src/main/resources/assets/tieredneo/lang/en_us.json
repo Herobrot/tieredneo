@@ -1,0 +1,13 @@
+{
+  "itemGroup.tieredneo": "Example Mod Tab",
+  "block.tieredneo.example_block": "Example Block",
+  "item.tieredneo.example_item": "Example Item",
+
+  "tieredneo.configuration.title": "Hero's Tiered Configs",
+  "tieredneo.configuration.section.tieredneo.common.toml": "Hero's Tiered Configs",
+  "tieredneo.configuration.section.tieredneo.common.toml.title": "Hero's Tiered Configs",
+  "tieredneo.configuration.items": "Item List",
+  "tieredneo.configuration.logDirtBlock": "Log Dirt Block",
+  "tieredneo.configuration.magicNumberIntroduction": "Magic Number Text",
+  "tieredneo.configuration.magicNumber": "Magic Number"
+}
