@@ -87,7 +87,7 @@ public class ReforgeScreen extends AbstractContainerScreen<ReforgeMenu> {
             if (!baseItems.isEmpty()) {
                 ItemStack ingredient = this.menu.getSlot(0).getItem();
                 if (!(!ingredient.isEmpty() && baseItems.contains(ingredient.getItem()))) {
-                    tooltip.add(Component.translatable("screen.tiered.reforge_ingredient"));
+                    tooltip.add(Component.translatable("screen.tieredneo.reforge_ingredient"));
                     for (Item item : baseItems) {
                         tooltip.add(item.getName(item.getDefaultInstance()));
                     }
@@ -95,7 +95,7 @@ public class ReforgeScreen extends AbstractContainerScreen<ReforgeMenu> {
             }
 
             if (itemStack.isDamageableItem() && itemStack.isDamaged()) {
-                tooltip.add(Component.translatable("screen.tiered.reforge_damaged"));
+                tooltip.add(Component.translatable("screen.tieredneo.reforge_damaged"));
             }
 
             if (!tooltip.isEmpty()) {

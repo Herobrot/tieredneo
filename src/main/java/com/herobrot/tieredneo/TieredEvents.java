@@ -4,7 +4,7 @@ import com.herobrot.tieredneo.api.AttributeTemplate;
 import com.herobrot.tieredneo.api.ModifierUtils;
 import com.herobrot.tieredneo.api.PotentialAttribute;
 import com.herobrot.tieredneo.api.TierDataComponent;
-//import com.herobrot.tieredneo.command.CommandInit;
+import com.herobrot.tieredneo.command.CommandInit;
 import com.herobrot.tieredneo.network.TieredNetwork;
 import com.herobrot.tieredneo.network.payload.AttributeSyncPayload;
 import com.herobrot.tieredneo.network.payload.HealthSyncPayload;
@@ -16,6 +16,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 /**
@@ -125,11 +126,10 @@ public class TieredEvents {
     // Commands
     // -------------------------------------------------------------------------
 
-    //@SubscribeEvent
-    /*public static void onRegisterCommands(RegisterCommandsEvent event) {
+    @SubscribeEvent
+    public static void onRegisterCommands(RegisterCommandsEvent event) {
         CommandInit.register(event.getDispatcher());
     }
-    */
     // -------------------------------------------------------------------------
     // Internal
     // -------------------------------------------------------------------------
