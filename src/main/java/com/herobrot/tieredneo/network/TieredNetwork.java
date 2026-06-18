@@ -28,7 +28,6 @@ public final class TieredNetwork {
         registrar.playToClient(HealthSyncPayload.TYPE, HealthSyncPayload.STREAM_CODEC, TieredClientPacketHandler::handleHealthSync);
         registrar.playToClient(ReforgeItemSyncPayload.TYPE, ReforgeItemSyncPayload.STREAM_CODEC, TieredClientPacketHandler::handleReforgeItemSync);
         registrar.playToClient(ReforgeReadyPayload.TYPE, ReforgeReadyPayload.STREAM_CODEC, TieredClientPacketHandler::handleReforgeReady);
-        registrar.playToClient(MousePositionPayload.TYPE, MousePositionPayload.STREAM_CODEC, TieredClientPacketHandler::handleMousePosition);
 
         // ---- Client -> Server ----
         registrar.playToServer(ReforgeRequestPayload.TYPE, ReforgeRequestPayload.STREAM_CODEC, TieredServerPacketHandler::handleReforgeRequest);

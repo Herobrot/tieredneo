@@ -28,13 +28,6 @@ public class TieredClientPacketHandler {
     // S2C handlers
     // -------------------------------------------------------------------------
 
-    public static void handleMousePosition(MousePositionPayload payload, IPayloadContext context) {
-        context.enqueueWork(() -> {
-            long windowHandle = Minecraft.getInstance().getWindow().getWindow();
-            GLFW.glfwSetCursorPos(windowHandle, payload.mouseX(), payload.mouseY());
-        });
-    }
-
     public static void handleHealthSync(HealthSyncPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (Minecraft.getInstance().player != null) {

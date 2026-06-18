@@ -53,4 +53,15 @@ public class TieredConfig implements ConfigData {
 
     @ConfigEntry.Category("client_settings")
     public boolean centerName = true;
+
+    @ConfigEntry.Category("client_settings")
+    @ConfigEntry.Gui.Tooltip
+    // Activa o desactiva el coloreado personalizado de los atributos de los Tiers
+    public boolean tieredTooltipAttributes = true;
+
+    @ConfigEntry.Category("client_settings")
+    @ConfigEntry.Gui.Tooltip
+    // Si está activo, los Tiers "Legendarios" o "Únicos" usarán su color especial
+    // en lugar del Azul tradicional para las estadísticas positivas (buffs).
+    public boolean legendaryColorsForAttributes = true;
 }

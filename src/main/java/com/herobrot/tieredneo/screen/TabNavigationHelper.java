@@ -1,6 +1,7 @@
 package com.herobrot.tieredneo.screen;
 
 import com.herobrot.tieredneo.TieredNeo;
+import com.herobrot.tieredneo.mixin.MouseHandlerAccessor;
 import com.herobrot.tieredneo.network.payload.ReforgeScreenPayload;
 import com.herobrot.tieredneo.reforge.ReforgeScreen;
 
@@ -19,16 +20,19 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = TieredNeo.MODID, value = Dist.CLIENT)
 public class TabNavigationHelper {
 
     private static final ResourceLocation ANVIL_ICON = TieredNeo.rl("textures/gui/anvil_tab_icon.png");
     private static final ResourceLocation REFORGE_ICON = TieredNeo.rl("textures/gui/reforge_tab_icon.png");
-
-    // Sprites nativos de Minecraft 1.21.1 para pestañas superiores
     private static final ResourceLocation TAB_SELECTED = ResourceLocation.withDefaultNamespace("container/creative_inventory/tab_top_selected_1");
     private static final ResourceLocation TAB_UNSELECTED = ResourceLocation.withDefaultNamespace("container/creative_inventory/tab_top_unselected_1");
+
+    private static boolean expectingTabChange = false;
+    private static double savedMouseX = 0;
+    private static double savedMouseY = 0;
 
     @SubscribeEvent
     public static void onScreenInit(ScreenEvent.Init.Post event) {
@@ -39,22 +43,28 @@ public class TabNavigationHelper {
             boolean isReforge = screen instanceof ReforgeScreen;
 
             if (isAnvil || isReforge) {
+                if (expectingTabChange) {
+                    expectingTabChange = false;
+
+                    Minecraft mc = Minecraft.getInstance();
+                    GLFW.glfwSetCursorPos(mc.getWindow().getWindow(), savedMouseX, savedMouseY);
+
+                    MouseHandlerAccessor accessor = (MouseHandlerAccessor) mc.mouseHandler;
+                    accessor.setXpos(savedMouseX);
+                    accessor.setYpos(savedMouseY);
+                }
+
                 int leftPos = containerScreen.getGuiLeft();
                 int topPos = containerScreen.getGuiTop();
 
-                // Las pestañas superiores estándar miden 28x32.
-                // Se posicionan en Y = topPos - 28 para que la base se solape con el GUI.
-
-                // Pestaña Yunque (Reparar)
                 event.addListener(new TabButton(
-                        leftPos + 10, topPos - 28, 28, 32,
+                        leftPos + 10, topPos - 28, 28, isAnvil ? 32 : 28,
                         ANVIL_ICON, isAnvil,
                         (button) -> sendTabChangePacket(false)
                 ));
 
-                // Pestaña Reforja
                 event.addListener(new TabButton(
-                        leftPos + 39, topPos - 28, 28, 32,
+                        leftPos + 39, topPos - 28, 28, isReforge ? 32 : 28,
                         REFORGE_ICON, isReforge,
                         (button) -> sendTabChangePacket(true)
                 ));
@@ -63,10 +73,11 @@ public class TabNavigationHelper {
     }
 
     private static void sendTabChangePacket(boolean isReforge) {
-        // Capturamos las coordenadas exactas del mouse del sistema operativo
-        double mX = Minecraft.getInstance().mouseHandler.xpos();
-        double mY = Minecraft.getInstance().mouseHandler.ypos();
-        PacketDistributor.sendToServer(new ReforgeScreenPayload(mX, mY, isReforge));
+        Minecraft mc = Minecraft.getInstance();
+        savedMouseX = mc.mouseHandler.xpos();
+        savedMouseY = mc.mouseHandler.ypos();
+        expectingTabChange = true;
+        PacketDistributor.sendToServer(new ReforgeScreenPayload(isReforge));
     }
 
     public static class TabButton extends AbstractButton {
@@ -83,15 +94,9 @@ public class TabNavigationHelper {
 
         @Override
         public void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-            // 1. DIBUJAR FONDO GRIS: Usamos el sprite nativo de Minecraft
             ResourceLocation bgSprite = this.isSelected ? TAB_SELECTED : TAB_UNSELECTED;
-
-            // Bajamos la pestaña no seleccionada 2 píxeles para dar efecto 3D
-            int yOffset = this.isSelected ? 0 : 2;
-            graphics.blitSprite(bgSprite, this.getX(), this.getY() + yOffset, this.width, this.height);
-
-            // 2. DIBUJAR TU ICONO PNG: Centrado en la pestaña
-            graphics.blit(this.icon, this.getX() + 6, this.getY() + 8 + yOffset, 0, 0, 16, 16, 16, 16);
+            graphics.blitSprite(bgSprite, this.getX(), this.getY(), this.width, this.height);
+            graphics.blit(this.icon, this.getX() + 6, this.getY() + 6, 0, 0, 16, 16, 16, 16);
         }
 
         @Override

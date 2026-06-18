@@ -6,7 +6,9 @@
   "mixins": [
     "LootTableMixin"
   ],
-  "client": [],
+  "client": [
+    "MouseHandlerAccessor"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
