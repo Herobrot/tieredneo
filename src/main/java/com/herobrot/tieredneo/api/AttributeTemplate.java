@@ -10,20 +10,14 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 
 import java.util.Optional;
 
-/**
- * A single attribute modifier template applied when an ItemStack receives a tier.
-
- * JSON schema (TieredZ datapack-compatible):
- * {
- * "type": "minecraft:generic.attack_damage",
- * "modifier": { "name": "...", "amount": 0.1, "operation": "ADD_MULTIPLIED_TOTAL" },
- * "optional_equipment_slots": ["MAINHAND", "OFFHAND"]
- * }
- */
 public class AttributeTemplate {
 
     @SerializedName("type")
@@ -48,16 +42,9 @@ public class AttributeTemplate {
         this.optionalEquipmentSlots = optionalEquipmentSlots;
     }
 
-    // -------------------------------------------------------------------------
-    // Accessors
-    // -------------------------------------------------------------------------
-
     public String getAttributeTypeID() { return attributeTypeID; }
-
     public AttributeModifier getEntityAttributeModifier() { return attributeModifier; }
-
     public EquipmentSlot[] getRequiredEquipmentSlots() { return requiredEquipmentSlots; }
-
     public EquipmentSlot[] getOptionalEquipmentSlots() { return optionalEquipmentSlots; }
 
     // -------------------------------------------------------------------------
@@ -67,9 +54,8 @@ public class AttributeTemplate {
     public void applyModifiersToEvent(ItemAttributeModifierEvent event) {
         if (attributeTypeID == null || attributeModifier == null) return;
 
-        // Normalizar los namespaces vacíos de TieredZ ("generic.attack_damage" -> "minecraft:generic.attack_damage")
+        // 1. Obtener el Atributo del Registro
         String normalizedId = attributeTypeID.contains(":") ? attributeTypeID : "minecraft:" + attributeTypeID;
-
         ResourceLocation attributeRL = ResourceLocation.tryParse(normalizedId);
         if (attributeRL == null) {
             TieredNeo.LOGGER.warn("[TieredNeo] ID de atributo ignorado (mal formado): '{}'", attributeTypeID);
@@ -80,36 +66,56 @@ public class AttributeTemplate {
         if (optional.isEmpty()) return;
         Holder<Attribute> attributeHolder = optional.get();
 
-        // Determinar qué arreglo de slots usar
-        EquipmentSlot[] slotsToApply = (requiredEquipmentSlots != null && requiredEquipmentSlots.length > 0)
-                ? requiredEquipmentSlots
-                : (optionalEquipmentSlots != null ? optionalEquipmentSlots : new EquipmentSlot[0]);
+        // 2. Descubrir el "Slot Natural" del objeto actual (Solución al bug de las armaduras)
+        ItemStack stack = event.getItemStack();
+        Item item = stack.getItem();
+        EquipmentSlot naturalSlot = EquipmentSlot.MAINHAND; // Por defecto (Espadas, Herramientas)
 
-        // Si no hay slots definidos, aplicar a TODO (ANY)
-        if (slotsToApply.length == 0) {
+        if (item instanceof ArmorItem armor) {
+            naturalSlot = armor.getType().getSlot();
+        } else if (item instanceof ShieldItem) {
+            naturalSlot = EquipmentSlot.OFFHAND;
+        }
+
+        // 3. Lógica de Aplicación
+        if (requiredEquipmentSlots != null && requiredEquipmentSlots.length > 0) {
+            // REQUIRED: Se aplica estrictamente a todos los definidos
+            for (EquipmentSlot slot : requiredEquipmentSlots) {
+                applyToSlot(event, attributeHolder, slot);
+            }
+        } else if (optionalEquipmentSlots != null && optionalEquipmentSlots.length > 0) {
+            // OPTIONAL: Filtramos y aplicamos SOLO si el slot natural está en la lista
+            for (EquipmentSlot slot : optionalEquipmentSlots) {
+                if (slot == naturalSlot) {
+                    applyToSlot(event, attributeHolder, slot);
+                    break; // Solo lo aplicamos una vez a su slot natural
+                }
+            }
+        } else {
+            // ANY: Si el JSON no tiene array de slots, se aplica siempre (ej: items genéricos)
             event.addModifier(attributeHolder, attributeModifier, EquipmentSlotGroup.ANY);
-            return;
         }
+    }
 
-        // Aplicar el modificador a cada slot individualmente
-        for (EquipmentSlot slot : slotsToApply) {
-            EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(slot);
+    /**
+     * Helper interno para encapsular la lógica de nombrado único para los modificadores en 1.21.1
+     */
+    private void applyToSlot(ItemAttributeModifierEvent event, Holder<Attribute> attributeHolder, EquipmentSlot slot) {
+        EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(slot);
+        ResourceLocation baseId = attributeModifier.id();
 
-            // En 1.21.1, múltiples modificadores requieren IDs únicos si se aplican al mismo ítem.
-            // Sufijamos el ID con el nombre del slot (ej. "tiered:epic_armor_1_chest")
-            ResourceLocation baseId = attributeModifier.id();
-            ResourceLocation slotSpecificId = ResourceLocation.fromNamespaceAndPath(
-                    baseId.getNamespace(),
-                    baseId.getPath() + "_" + slot.getName().toLowerCase()
-            );
+        // En 1.21.1 requerimos IDs únicos por slot
+        ResourceLocation slotSpecificId = ResourceLocation.fromNamespaceAndPath(
+                baseId.getNamespace(),
+                baseId.getPath() + "_" + slot.getName().toLowerCase()
+        );
 
-            AttributeModifier slotModifier = new AttributeModifier(
-                    slotSpecificId,
-                    attributeModifier.amount(),
-                    attributeModifier.operation()
-            );
+        AttributeModifier slotModifier = new AttributeModifier(
+                slotSpecificId,
+                attributeModifier.amount(),
+                attributeModifier.operation()
+        );
 
-            event.addModifier(attributeHolder, slotModifier, group);
-        }
+        event.addModifier(attributeHolder, slotModifier, group);
     }
 }

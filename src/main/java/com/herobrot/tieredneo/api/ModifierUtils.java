@@ -221,7 +221,7 @@ public final class ModifierUtils {
         }
     }
 
-    private static void applyTierToStack(ItemStack stack, ResourceLocation tierId, PotentialAttribute attr) {
+    public static void applyTierToStack(ItemStack stack, ResourceLocation tierId, PotentialAttribute attr) {
         float durableFactor = -1f;
         int operation = 2; // ADD_MULTIPLIED_TOTAL default
 
