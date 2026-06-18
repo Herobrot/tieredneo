@@ -19,21 +19,10 @@ import java.util.Optional;
 
  * JSON schema (TieredZ datapack-compatible):
  * {
- *   "type": "minecraft:generic.attack_damage",  // or bare "generic.attack_damage"
- *   "modifier": { "name": "...", "amount": 0.1, "operation": "ADD_MULTIPLIED_TOTAL" },
- *   "optional_equipment_slots": ["MAINHAND", "OFFHAND"]
+ * "type": "minecraft:generic.attack_damage",
+ * "modifier": { "name": "...", "amount": 0.1, "operation": "ADD_MULTIPLIED_TOTAL" },
+ * "optional_equipment_slots": ["MAINHAND", "OFFHAND"]
  * }
-
- * Two issues found in real TieredZ datapacks and addressed here:
-
- * 1. Bare attribute types without namespace (e.g. "generic.attack_damage"):
- *    ResourceLocation.tryParse() returns null for these. We normalize them to
- *    "minecraft:<type>" before parsing, matching TieredZ's original behavior.
-
- * 2. Multiple slots in optional_equipment_slots (e.g. ["MAINHAND", "OFFHAND"]):
- *    resolveSlotGroup() now maps common combinations to their EquipmentSlotGroup
- *    equivalent (HAND for mainhand+offhand, ARMOR for all armor slots, etc.)
- *    instead of always taking the first element.
  */
 public class AttributeTemplate {
 
@@ -72,122 +61,55 @@ public class AttributeTemplate {
     public EquipmentSlot[] getOptionalEquipmentSlots() { return optionalEquipmentSlots; }
 
     // -------------------------------------------------------------------------
-    // Slot group resolution
+    // Application via ItemAttributeModifierEvent (NeoForge 1.21.1)
     // -------------------------------------------------------------------------
 
-    /**
-     * Derives the best-fit EquipmentSlotGroup for this template's slot array.
-
-     * Strategy:
-     *  1. Prefer required_equipment_slots if present.
-     *  2. Fall back to optional_equipment_slots.
-     *  3. Map common combinations to their group constants.
-     *  4. Default to ANY if nothing is specified.
-
-     * Common mappings from TieredZ datapacks:
-     *   [MAINHAND]                         → MAINHAND
-     *   [OFFHAND]                          → OFFHAND
-     *   [MAINHAND, OFFHAND]                → HAND
-     *   [HEAD]                             → HEAD
-     *   [CHEST]                            → CHEST
-     *   [LEGS]                             → LEGS
-     *   [FEET]                             → FEET
-     *   [HEAD, CHEST, LEGS, FEET]          → ARMOR
-     *   [HEAD, CHEST, LEGS, FEET, MAINHAND, OFFHAND] → ANY
-     *   anything else with 1 slot         → bySlot(slot)
-     *   anything else multi-slot          → ANY (safe fallback)
-     */
-    public EquipmentSlotGroup resolveSlotGroup() {
-        EquipmentSlot[] slots = effectiveSlots();
-        if (slots == null || slots.length == 0) return EquipmentSlotGroup.ANY;
-
-        if (slots.length == 1) {
-            return EquipmentSlotGroup.bySlot(slots[0]);
-        }
-
-        // Build a bitmask of which slots are present for pattern matching
-        boolean hasMain   = contains(slots, EquipmentSlot.MAINHAND);
-        boolean hasOff    = contains(slots, EquipmentSlot.OFFHAND);
-        boolean hasHead   = contains(slots, EquipmentSlot.HEAD);
-        boolean hasChest  = contains(slots, EquipmentSlot.CHEST);
-        boolean hasLegs   = contains(slots, EquipmentSlot.LEGS);
-        boolean hasFeet   = contains(slots, EquipmentSlot.FEET);
-
-        // [MAINHAND, OFFHAND] → HAND
-        if (hasMain && hasOff && !hasHead && !hasChest && !hasLegs && !hasFeet) {
-            return EquipmentSlotGroup.HAND;
-        }
-
-        // [HEAD, CHEST, LEGS, FEET] → ARMOR
-        if (hasHead && hasChest && hasLegs && hasFeet && !hasMain && !hasOff) {
-            return EquipmentSlotGroup.ARMOR;
-        }
-
-        // All six → ANY
-        if (hasMain && hasOff && hasHead && hasChest && hasLegs && hasFeet) {
-            return EquipmentSlotGroup.ANY;
-        }
-
-        // Unknown multi-slot pattern — ANY is the safe fallback
-        TieredNeo.LOGGER.debug("[TieredNeo] Unrecognized slot combination in '{}', defaulting to ANY.",
-                attributeTypeID);
-        return EquipmentSlotGroup.ANY;
-    }
-
-    // -------------------------------------------------------------------------
-    // Application via ItemAttributeModifierEvent
-    // -------------------------------------------------------------------------
-
-    /**
-     * Resolves the Attribute and adds the modifier to the event.
-
-     * Namespace normalization:
-     *   Bare type strings like "generic.attack_damage" (no colon) are prefixed
-     *   with "minecraft:" before parsing, matching TieredZ's original behavior
-     *   where the Fabric registry defaulted to the minecraft namespace.
-     */
-    public void applyModifiersToEvent(ItemAttributeModifierEvent event,
-                                      EquipmentSlotGroup slotGroup) {
+    public void applyModifiersToEvent(ItemAttributeModifierEvent event) {
         if (attributeTypeID == null || attributeModifier == null) return;
 
-        String normalizedId = attributeTypeID.contains(":")
-                ? attributeTypeID
-                : "minecraft:" + attributeTypeID;
+        // Normalizar los namespaces vacíos de TieredZ ("generic.attack_damage" -> "minecraft:generic.attack_damage")
+        String normalizedId = attributeTypeID.contains(":") ? attributeTypeID : "minecraft:" + attributeTypeID;
 
         ResourceLocation attributeRL = ResourceLocation.tryParse(normalizedId);
         if (attributeRL == null) {
-            TieredNeo.LOGGER.warn("[TieredNeo] Malformed attribute type ID: '{}'", attributeTypeID);
+            TieredNeo.LOGGER.warn("[TieredNeo] ID de atributo ignorado (mal formado): '{}'", attributeTypeID);
             return;
         }
 
-        Optional<Holder.Reference<Attribute>> optional =
-                BuiltInRegistries.ATTRIBUTE.getHolder(attributeRL);
+        Optional<Holder.Reference<Attribute>> optional = BuiltInRegistries.ATTRIBUTE.getHolder(attributeRL);
+        if (optional.isEmpty()) return;
+        Holder<Attribute> attributeHolder = optional.get();
 
-        if (optional.isEmpty()) {
-            TieredNeo.LOGGER.debug("[TieredNeo] Attribute '{}' not found in registry — "
-                    + "may belong to another mod that is not loaded.", attributeRL);
+        // Determinar qué arreglo de slots usar
+        EquipmentSlot[] slotsToApply = (requiredEquipmentSlots != null && requiredEquipmentSlots.length > 0)
+                ? requiredEquipmentSlots
+                : (optionalEquipmentSlots != null ? optionalEquipmentSlots : new EquipmentSlot[0]);
+
+        // Si no hay slots definidos, aplicar a TODO (ANY)
+        if (slotsToApply.length == 0) {
+            event.addModifier(attributeHolder, attributeModifier, EquipmentSlotGroup.ANY);
             return;
         }
 
-        event.addModifier(optional.get(), attributeModifier, slotGroup);
-    }
+        // Aplicar el modificador a cada slot individualmente
+        for (EquipmentSlot slot : slotsToApply) {
+            EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(slot);
 
-    // -------------------------------------------------------------------------
-    // Internal helpers
-    // -------------------------------------------------------------------------
+            // En 1.21.1, múltiples modificadores requieren IDs únicos si se aplican al mismo ítem.
+            // Sufijamos el ID con el nombre del slot (ej. "tiered:epic_armor_1_chest")
+            ResourceLocation baseId = attributeModifier.id();
+            ResourceLocation slotSpecificId = ResourceLocation.fromNamespaceAndPath(
+                    baseId.getNamespace(),
+                    baseId.getPath() + "_" + slot.getName().toLowerCase()
+            );
 
-    /** Returns required slots if present, otherwise optional slots. */
-    private EquipmentSlot[] effectiveSlots() {
-        if (requiredEquipmentSlots != null && requiredEquipmentSlots.length > 0) {
-            return requiredEquipmentSlots;
+            AttributeModifier slotModifier = new AttributeModifier(
+                    slotSpecificId,
+                    attributeModifier.amount(),
+                    attributeModifier.operation()
+            );
+
+            event.addModifier(attributeHolder, slotModifier, group);
         }
-        return optionalEquipmentSlots;
-    }
-
-    private static boolean contains(EquipmentSlot[] slots, EquipmentSlot target) {
-        for (EquipmentSlot s : slots) {
-            if (s == target) return true;
-        }
-        return false;
     }
 }

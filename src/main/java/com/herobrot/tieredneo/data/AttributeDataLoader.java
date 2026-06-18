@@ -47,7 +47,7 @@ import java.util.Map;
  */
 public class AttributeDataLoader extends SimplePreparableReloadListener<Map<ResourceLocation, PotentialAttribute>> {
 
-    static final Gson GSON = new GsonBuilder()
+    public static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
             // Deserializers — read datapacks from disk

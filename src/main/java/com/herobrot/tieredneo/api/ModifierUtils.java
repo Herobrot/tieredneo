@@ -2,15 +2,15 @@ package com.herobrot.tieredneo.api;
 
 import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.config.ConfigInit;
-import com.herobrot.tieredneo.config.TieredConfig;
 import com.herobrot.tieredneo.util.WeightedList;
 
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -167,7 +167,7 @@ public final class ModifierUtils {
     @Nullable
     public static ResourceLocation getAttributeId(ItemStack stack) {
         TierDataComponent component = stack.get(TieredNeo.TIER_TYPE());
-        if (component == null || !component.isPresent()) return null;
+        if (component == null || component.isPresent()) return null;
         return component.tierId();
     }
 
@@ -193,7 +193,7 @@ public final class ModifierUtils {
             if (stack.isEmpty()) continue;
 
             TierDataComponent component = stack.get(TieredNeo.TIER_TYPE());
-            if (component == null || !component.isPresent()) continue;
+            if (component == null || component.isPresent()) continue;
 
             ResourceLocation tierId = component.tierId();
             Item stackItem = stack.getItem();
@@ -221,9 +221,6 @@ public final class ModifierUtils {
         }
     }
 
-    /**
-     * Helper centralizado para buscar el modificador de durabilidad y aplicar el TierDataComponent.
-     */
     private static void applyTierToStack(ItemStack stack, ResourceLocation tierId, PotentialAttribute attr) {
         float durableFactor = -1f;
         int operation = 2; // ADD_MULTIPLIED_TOTAL default
@@ -238,5 +235,24 @@ public final class ModifierUtils {
         }
 
         stack.set(TieredNeo.TIER_TYPE(), new TierDataComponent(tierId, durableFactor, operation));
+
+        if (durableFactor > 0 && stack.has(DataComponents.MAX_DAMAGE)) {
+            int currentMax = stack.getOrDefault(DataComponents.MAX_DAMAGE, 0);
+            if (currentMax > 0) {
+                int newMax = operation == 0
+                        ? currentMax + (int) durableFactor
+                        : currentMax + (int) (currentMax * durableFactor);
+                stack.set(DataComponents.MAX_DAMAGE, newMax);
+            }
+        }
+
+        Component pureBaseName = stack.getItem().getName(stack.getItem().getDefaultInstance());
+
+        Component fullName = Component.empty()
+                .append(Component.translatable(attr.getID() + ".label").withStyle(attr.getStyle()))
+                .append(Component.literal(" ").withStyle(attr.getStyle()))
+                .append(pureBaseName.copy().withStyle(attr.getStyle()));
+
+        stack.set(DataComponents.ITEM_NAME, fullName);
     }
 }

@@ -3,7 +3,9 @@
   "minVersion": "0.8",
   "package": "com.herobrot.tieredneo.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "LootTableMixin"
+  ],
   "client": [],
   "injectors": {
     "defaultRequire": 1

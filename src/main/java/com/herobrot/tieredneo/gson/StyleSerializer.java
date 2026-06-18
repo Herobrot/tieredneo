@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 
 /**
  * Serializes Style back to JSON for the AttributeSyncPayload round-trip.
- *
+
  * getColor().serialize() produces the named color string ("gold", "dark_purple")
  * or "#RRGGBB" for custom colors — both are accepted by StyleDeserializer.
  */

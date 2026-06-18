@@ -91,9 +91,7 @@ public class TieredNeo {
      */
     public static final DeferredHolder<MenuType<?>, MenuType<ReforgeMenu>> REFORGE_MENU =
             MENU_TYPES.register("reforge", () ->
-                    IMenuTypeExtension.create((windowId, inv, data) ->
-                            new ReforgeMenu(windowId, inv, data)
-                    )
+                    IMenuTypeExtension.create(ReforgeMenu::new)
             );
 
     // -------------------------------------------------------------------------

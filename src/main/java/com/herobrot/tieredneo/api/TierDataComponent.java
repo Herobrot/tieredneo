@@ -66,7 +66,7 @@ public record TierDataComponent(ResourceLocation tierId, float durable, int oper
 
     public static final StreamCodec<ByteBuf, TierDataComponent> STREAM_CODEC =
             StreamCodec.composite(
-                    ByteBufCodecs.RESOURCE_LOCATION, TierDataComponent::tierId,
+                    ResourceLocation.STREAM_CODEC,   TierDataComponent::tierId,
                     ByteBufCodecs.FLOAT,             TierDataComponent::durable,
                     ByteBufCodecs.INT,               TierDataComponent::operation,
                     TierDataComponent::new
@@ -78,7 +78,7 @@ public record TierDataComponent(ResourceLocation tierId, float durable, int oper
 
     /** True if this component holds an actual tier (not the EMPTY sentinel). */
     public boolean isPresent() {
-        return !tierId.equals(EMPTY.tierId);
+        return tierId.equals(EMPTY.tierId);
     }
 
     /**

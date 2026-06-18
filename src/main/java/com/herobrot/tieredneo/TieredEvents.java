@@ -4,20 +4,18 @@ import com.herobrot.tieredneo.api.AttributeTemplate;
 import com.herobrot.tieredneo.api.ModifierUtils;
 import com.herobrot.tieredneo.api.PotentialAttribute;
 import com.herobrot.tieredneo.api.TierDataComponent;
-import com.herobrot.tieredneo.command.CommandInit;
+//import com.herobrot.tieredneo.command.CommandInit;
 import com.herobrot.tieredneo.network.TieredNetwork;
 import com.herobrot.tieredneo.network.payload.AttributeSyncPayload;
 import com.herobrot.tieredneo.network.payload.HealthSyncPayload;
 import com.herobrot.tieredneo.network.payload.ReforgeItemSyncPayload;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 /**
@@ -107,7 +105,7 @@ public class TieredEvents {
     @SubscribeEvent
     public static void onItemAttributeModifier(ItemAttributeModifierEvent event) {
         TierDataComponent tierData = event.getItemStack().get(TieredNeo.TIER_TYPE());
-        if (tierData == null || !tierData.isPresent()) return;
+        if (tierData == null || tierData.isPresent()) return;
 
         PotentialAttribute attribute =
                 TieredNeo.ATTRIBUTE_DATA_LOADER.getItemAttributes().get(tierData.tierId());
@@ -127,11 +125,11 @@ public class TieredEvents {
     // Commands
     // -------------------------------------------------------------------------
 
-    @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
+    //@SubscribeEvent
+    /*public static void onRegisterCommands(RegisterCommandsEvent event) {
         CommandInit.register(event.getDispatcher());
     }
-
+    */
     // -------------------------------------------------------------------------
     // Internal
     // -------------------------------------------------------------------------

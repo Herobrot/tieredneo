@@ -6,10 +6,8 @@ import com.herobrot.tieredneo.config.TieredConfig;
 import com.herobrot.tieredneo.data.TooltipBorderLoader;
 import com.herobrot.tieredneo.network.TieredClientPacketHandler;
 import com.herobrot.tieredneo.reforge.ReforgeScreen;
-import com.herobrot.tieredneo.screen.TabNavigationHelper;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -17,6 +15,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 import java.util.ArrayList;
@@ -69,26 +68,19 @@ public class TieredNeoClient {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            MenuScreens.register(TieredNeo.REFORGE_MENU.get(), ReforgeScreen::new);
             TieredClientPacketHandler.init();
-            TabNavigationHelper.init();
             TieredNeo.LOGGER.info("[TieredNeo] Client setup complete.");
         });
+    }
+
+    // NUEVO EVENTO OFICIAL PARA REGISTRAR PANTALLAS EN 1.21.1
+    @SubscribeEvent
+    public static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
+        event.register(TieredNeo.REFORGE_MENU.get(), ReforgeScreen::new);
     }
 
     @SubscribeEvent
     public static void onRegisterClientReloadListeners(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(new TooltipBorderLoader());
     }
-
-    // -------------------------------------------------------------------------
-    // Game bus events (client) — logout cache cleanup
-    // Note: logout events fire on the game bus, not the mod bus.
-    // The @EventBusSubscriber above covers the mod bus only, so we register
-    // the logout handler manually in onClientSetup via NeoForge.EVENT_BUS.
-    //
-    // Alternative: use a separate @EventBusSubscriber(bus = Bus.GAME) class.
-    // We chose the separate class approach to keep responsibilities clear.
-    // See TieredClientEvents.java.
-    // -------------------------------------------------------------------------
 }

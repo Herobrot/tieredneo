@@ -15,6 +15,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 public class TieredClientPacketHandler {
 
@@ -26,6 +27,13 @@ public class TieredClientPacketHandler {
     // -------------------------------------------------------------------------
     // S2C handlers
     // -------------------------------------------------------------------------
+
+    public static void handleMousePosition(MousePositionPayload payload, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            long windowHandle = Minecraft.getInstance().getWindow().getWindow();
+            GLFW.glfwSetCursorPos(windowHandle, payload.mouseX(), payload.mouseY());
+        });
+    }
 
     public static void handleHealthSync(HealthSyncPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
@@ -54,7 +62,7 @@ public class TieredClientPacketHandler {
      * Deserializes each PotentialAttribute from its JSON string and populates
      * both the live loader map (for immediate use) and the client cache
      * (for reconnect recovery).
-     *
+
      * The previous map is saved to CACHED_ATTRIBUTES before replacement so that
      * if this payload arrives while items are being rendered, the old data is
      * still accessible until the full replacement completes on the main thread.
@@ -86,19 +94,6 @@ public class TieredClientPacketHandler {
             // Replace the loader's map — it accepts client updates via this path
             TieredNeo.ATTRIBUTE_DATA_LOADER.applyClientSync(incoming);
             TieredNeo.LOGGER.debug("[TieredNeo] Client received {} attributes from server.", incoming.size());
-        });
-    }
-
-    /**
-     * Reemplaza LibzServerPacket.writeS2CMousePositionPacket.
-     * Forces the cursor position using GLFW directly, converting
-     * scaled UI coordinates to real window pixel coordinates.
-     */
-    public static void handleMousePosition(MousePositionPayload payload, IPayloadContext context) {
-        context.enqueueWork(() -> {
-            long windowHandle = Minecraft.getInstance().getWindow().getWindow();
-            double scale = Minecraft.getInstance().getWindow().getGuiScale();
-            GLFW.glfwSetCursorPos(windowHandle, payload.mouseX() * scale, payload.mouseY() * scale);
         });
     }
 }

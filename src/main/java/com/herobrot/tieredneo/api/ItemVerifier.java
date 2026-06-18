@@ -1,8 +1,6 @@
 package com.herobrot.tieredneo.api;
 
 import com.google.gson.annotations.SerializedName;
-import com.herobrot.tieredneo.TieredNeo;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -30,30 +28,23 @@ public class ItemVerifier {
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
 
         return switch (type.toLowerCase()) {
-            case "item" -> itemId.toString().equals(value);
+            // Soporte para ambos nombres heredados de TieredZ
+            case "item", "id" -> itemId.toString().equals(value);
 
             case "tag" -> {
                 ResourceLocation tagRL = ResourceLocation.tryParse(value);
-                if (tagRL == null) {
-                    TieredNeo.LOGGER.warn(
-                            "[TieredNeo] ItemVerifier: malformed tag ResourceLocation '{}'", value);
-                    yield false;
-                }
+                if (tagRL == null) yield false;
+
                 TagKey<Item> tagKey = TagKey.create(Registries.ITEM, tagRL);
                 yield BuiltInRegistries.ITEM.wrapAsHolder(item).is(tagKey);
             }
 
             case "namespace" -> itemId.getNamespace().equals(value);
-
             case "contains" -> itemId.getPath().contains(value);
-
             case "startswith" -> itemId.toString().startsWith(value);
 
-            default -> {
-                TieredNeo.LOGGER.warn(
-                        "[TieredNeo] ItemVerifier: unknown type '{}' (value: '{}')", type, value);
-                yield false;
-            }
+            // Fallo silencioso por rendimiento. Las advertencias se dan en el Deserializer.
+            default -> false;
         };
     }
 
