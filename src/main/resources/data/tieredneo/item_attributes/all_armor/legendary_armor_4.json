@@ -1,5 +1,5 @@
 {
-    "id": "tiered:legendary_armor_4",
+    "id": "tieredneo:legendary_armor_4",
     "verifiers": [
         {
             "tag": "minecraft:head_armor"
@@ -22,7 +22,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:legendary_armor_4",
+                "name": "tieredneo:legendary_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": 4
             },
@@ -36,7 +36,7 @@
         {
             "type": "generic.armor_toughness",
             "modifier": {
-                "name": "tiered:legendary_armor_4",
+                "name": "tieredneo:legendary_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": 1
             },
@@ -48,9 +48,9 @@
             ]
         },
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:legendary_armor_4",
+                "name": "tieredneo:legendary_armor_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.3
             },

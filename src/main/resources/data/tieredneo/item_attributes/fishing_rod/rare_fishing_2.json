@@ -1,5 +1,5 @@
 {
-    "id": "tiered:rare_fishing_2",
+    "id": "tieredneo:rare_fishing_2",
     "verifiers": [
         {
             "id": "minecraft:fishing_rod"
@@ -11,9 +11,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:uncommon_fishing_2",
+                "name": "tieredneo:uncommon_fishing_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.1
             },
@@ -25,7 +25,7 @@
         {
             "type": "generic.luck",
             "modifier": {
-                "name": "tiered:rare_fishing_2",
+                "name": "tieredneo:rare_fishing_2",
                 "operation": "ADD_VALUE",
                 "amount": -0.5
             },

@@ -1,5 +1,5 @@
 {
-    "id": "tiered:common_shield_2",
+    "id": "tieredneo:common_shield_2",
     "verifiers": [
         {
             "tag": "c:tools/shields"
@@ -11,9 +11,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:common_shield_2",
+                "name": "tieredneo:common_shield_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.3
             },
@@ -25,7 +25,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:common_shield_2",
+                "name": "tieredneo:common_shield_2",
                 "operation": "ADD_VALUE",
                 "amount": -4
             },
@@ -37,7 +37,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:common_shield_2",
+                "name": "tieredneo:common_shield_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.2
             },

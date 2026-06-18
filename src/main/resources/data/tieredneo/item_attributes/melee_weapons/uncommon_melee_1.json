@@ -1,5 +1,5 @@
 {
-    "id": "tiered:uncommon_melee_1",
+    "id": "tieredneo:uncommon_melee_1",
     "verifiers": [
         {
             "tag": "minecraft:swords"
@@ -13,7 +13,7 @@
         {
             "type": "generic.attack_damage",
             "modifier": {
-                "name": "tiered:uncommon_melee_1",
+                "name": "tieredneo:uncommon_melee_1",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.15
             },
@@ -22,9 +22,9 @@
             ]
         },
         {
-            "type": "tiered:generic.crit_chance",
+            "type": "tieredneo:generic.crit_chance",
             "modifier": {
-                "name": "tiered:uncommon_melee_1",
+                "name": "tieredneo:uncommon_melee_1",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.05
             },
@@ -35,7 +35,7 @@
         {
             "type": "generic.luck",
             "modifier": {
-                "name": "tiered:uncommon_melee_1",
+                "name": "tieredneo:uncommon_melee_1",
                 "operation": "ADD_VALUE",
                 "amount": -1
             },

@@ -1,5 +1,5 @@
 {
-    "id": "tiered:rare_armor_4",
+    "id": "tieredneo:rare_armor_4",
     "verifiers": [
         {
             "tag": "minecraft:head_armor"
@@ -22,7 +22,7 @@
         {
             "type": "generic.armor",
             "modifier": {
-                "name": "tiered:rare_armor_4",
+                "name": "tieredneo:rare_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": 2
             },
@@ -36,7 +36,7 @@
         {
             "type": "generic.armor_toughness",
             "modifier": {
-                "name": "tiered:rare_armor_4",
+                "name": "tieredneo:rare_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": 1
             },
@@ -50,7 +50,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:rare_armor_4",
+                "name": "tieredneo:rare_armor_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.05
             },

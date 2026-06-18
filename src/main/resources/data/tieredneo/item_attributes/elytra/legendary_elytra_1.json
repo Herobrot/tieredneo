@@ -1,5 +1,5 @@
 {
-    "id": "tiered:legendary_elytra_1",
+    "id": "tieredneo:legendary_elytra_1",
     "verifiers": [
         {
             "id": "minecraft:elytra"
@@ -13,7 +13,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:legendary_elytra_1",
+                "name": "tieredneo:legendary_elytra_1",
                 "operation": "ADD_VALUE",
                 "amount": 2
             },
@@ -24,7 +24,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:legendary_elytra_1",
+                "name": "tieredneo:legendary_elytra_1",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.1
             },

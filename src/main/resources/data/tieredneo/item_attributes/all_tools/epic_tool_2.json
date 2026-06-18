@@ -1,5 +1,5 @@
 {
-    "id": "tiered:epic_tool_2",
+    "id": "tieredneo:epic_tool_2",
     "verifiers": [
         {
             "tag": "minecraft:axes"
@@ -20,9 +20,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:epic_tool_2",
+                "name": "tieredneo:epic_tool_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.2
             },
@@ -33,7 +33,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:epic_tool_2",
+                "name": "tieredneo:epic_tool_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.05
             },

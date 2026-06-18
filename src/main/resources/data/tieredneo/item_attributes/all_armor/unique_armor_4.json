@@ -1,5 +1,5 @@
 {
-    "id": "tiered:unique_armor_4",
+    "id": "tieredneo:unique_armor_4",
     "verifiers": [
         {
             "tag": "minecraft:head_armor"
@@ -22,7 +22,7 @@
         {
             "type": "generic.armor",
             "modifier": {
-                "name": "tiered:unique_armor_4",
+                "name": "tieredneo:unique_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": 4
             },
@@ -36,7 +36,7 @@
         {
             "type": "generic.armor_toughness",
             "modifier": {
-                "name": "tiered:unique_armor_4",
+                "name": "tieredneo:unique_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": 2
             },
@@ -48,9 +48,9 @@
             ]
         },
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:unique_armor_4",
+                "name": "tieredneo:unique_armor_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.5
             },
@@ -64,7 +64,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:unique_armor_4",
+                "name": "tieredneo:unique_armor_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.1
             },

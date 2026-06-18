@@ -1,5 +1,5 @@
 {
-    "id": "tiered:epic_fishing_2",
+    "id": "tieredneo:epic_fishing_2",
     "verifiers": [
         {
             "id": "minecraft:fishing_rod"
@@ -11,9 +11,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:epic_fishing_2",
+                "name": "tieredneo:epic_fishing_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.3
             },

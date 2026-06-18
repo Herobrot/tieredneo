@@ -1,5 +1,5 @@
 {
-    "id": "tiered:epic_armor_3",
+    "id": "tieredneo:epic_armor_3",
     "verifiers": [
         {
             "tag": "minecraft:head_armor"
@@ -22,7 +22,7 @@
         {
             "type": "generic.armor",
             "modifier": {
-                "name": "tiered:epic_armor_3",
+                "name": "tieredneo:epic_armor_3",
                 "operation": "ADD_VALUE",
                 "amount": 2
             },
@@ -36,7 +36,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:epic_armor_3",
+                "name": "tieredneo:epic_armor_3",
                 "operation": "ADD_VALUE",
                 "amount": 1
             },
@@ -50,7 +50,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:epic_armor_3",
+                "name": "tieredneo:epic_armor_3",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.05
             },

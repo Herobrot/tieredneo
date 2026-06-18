@@ -1,5 +1,5 @@
 {
-    "id": "tiered:common_armor_3",
+    "id": "tieredneo:common_armor_3",
     "verifiers": [
         {
             "tag": "minecraft:head_armor"
@@ -20,9 +20,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:common_armor_3",
+                "name": "tieredneo:common_armor_3",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.5
             },

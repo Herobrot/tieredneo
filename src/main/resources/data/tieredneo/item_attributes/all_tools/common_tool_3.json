@@ -1,5 +1,5 @@
 {
-    "id": "tiered:common_tool_3",
+    "id": "tieredneo:common_tool_3",
     "verifiers": [
         {
             "tag": "minecraft:axes"
@@ -20,9 +20,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.dig_speed",
+            "type": "tieredneo:generic.dig_speed",
             "modifier": {
-                "name": "tiered:common_tool_3",
+                "name": "tieredneo:common_tool_3",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.2
             },
@@ -33,7 +33,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:common_tool_3",
+                "name": "tieredneo:common_tool_3",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.1
             },
@@ -44,7 +44,7 @@
         {
             "type": "player.block_interaction_range",
             "modifier": {
-                "name": "tiered:common_tool_3",
+                "name": "tieredneo:common_tool_3",
                 "operation": "ADD_VALUE",
                 "amount": -2
             },

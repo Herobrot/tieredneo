@@ -1,5 +1,5 @@
 {
-    "id": "tiered:uncommon_armor_4",
+    "id": "tieredneo:uncommon_armor_4",
     "verifiers": [
         {
             "tag": "minecraft:head_armor"
@@ -22,7 +22,7 @@
         {
             "type": "generic.armor",
             "modifier": {
-                "name": "tiered:uncommon_armor_4",
+                "name": "tieredneo:uncommon_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": -1
             },
@@ -36,7 +36,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:uncommon_armor_4",
+                "name": "tieredneo:uncommon_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": 1
             },

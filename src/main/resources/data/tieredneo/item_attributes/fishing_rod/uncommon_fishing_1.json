@@ -1,5 +1,5 @@
 {
-    "id": "tiered:uncommon_fishing_1",
+    "id": "tieredneo:uncommon_fishing_1",
     "verifiers": [
         {
             "id": "minecraft:fishing_rod"
@@ -13,7 +13,7 @@
         {
             "type": "generic.luck",
             "modifier": {
-                "name": "tiered:uncommon_fishing_1",
+                "name": "tieredneo:uncommon_fishing_1",
                 "operation": "ADD_VALUE",
                 "amount": -2
             },

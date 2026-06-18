@@ -1,5 +1,5 @@
 {
-    "id": "tiered:epic_armor_1",
+    "id": "tieredneo:epic_armor_1",
     "verifiers": [
         {
             "tag": "minecraft:head_armor"
@@ -22,7 +22,7 @@
         {
             "type": "generic.armor_toughness",
             "modifier": {
-                "name": "tiered:epic_armor_1",
+                "name": "tieredneo:epic_armor_1",
                 "operation": "ADD_VALUE",
                 "amount": 1
             },
@@ -34,9 +34,9 @@
             ]
         },
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:epic_armor_1",
+                "name": "tieredneo:epic_armor_1",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.2
             },
@@ -50,7 +50,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:epic_armor_1",
+                "name": "tieredneo:epic_armor_1",
                 "operation": "ADD_VALUE",
                 "amount": 2
             },

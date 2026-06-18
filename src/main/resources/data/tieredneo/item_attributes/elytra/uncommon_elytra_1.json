@@ -1,5 +1,5 @@
 {
-    "id": "tiered:uncommon_elytra_1",
+    "id": "tieredneo:uncommon_elytra_1",
     "verifiers": [
         {
             "id": "minecraft:elytra"
@@ -11,9 +11,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:uncommon_elytra_1",
+                "name": "tieredneo:uncommon_elytra_1",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.25
             },

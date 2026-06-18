@@ -1,5 +1,5 @@
 {
-    "id": "tiered:epic_shield_1",
+    "id": "tieredneo:epic_shield_1",
     "verifiers": [
         {
             "tag": "c:tools/shields"
@@ -13,7 +13,7 @@
         {
             "type": "generic.armor",
             "modifier": {
-                "name": "tiered:epic_shield_1",
+                "name": "tieredneo:epic_shield_1",
                 "operation": "ADD_VALUE",
                 "amount": 1
             },
@@ -23,9 +23,9 @@
             ]
         },
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:epic_shield_1",
+                "name": "tieredneo:epic_shield_1",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.15
             },
@@ -37,7 +37,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:epic_shield_1",
+                "name": "tieredneo:epic_shield_1",
                 "operation": "ADD_VALUE",
                 "amount": 2
             },

@@ -1,5 +1,5 @@
 {
-    "id": "tiered:common_shield_3",
+    "id": "tieredneo:common_shield_3",
     "verifiers": [
         {
             "tag": "c:tools/shields"
@@ -13,7 +13,7 @@
         {
             "type": "generic.armor",
             "modifier": {
-                "name": "tiered:common_shield_3",
+                "name": "tieredneo:common_shield_3",
                 "operation": "ADD_VALUE",
                 "amount": -2
             },
@@ -23,9 +23,9 @@
             ]
         },
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:common_shield_3",
+                "name": "tieredneo:common_shield_3",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.3
             },
@@ -37,7 +37,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:common_shield_3",
+                "name": "tieredneo:common_shield_3",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.2
             },

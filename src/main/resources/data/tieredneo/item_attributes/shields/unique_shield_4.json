@@ -1,5 +1,5 @@
 {
-    "id": "tiered:unique_shield_4",
+    "id": "tieredneo:unique_shield_4",
     "verifiers": [
         {
             "tag": "c:tools/shields"
@@ -13,7 +13,7 @@
         {
             "type": "generic.armor",
             "modifier": {
-                "name": "tiered:unique_shield_4",
+                "name": "tieredneo:unique_shield_4",
                 "operation": "ADD_VALUE",
                 "amount": 4
             },
@@ -25,7 +25,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:unique_shield_4",
+                "name": "tieredneo:unique_shield_4",
                 "operation": "ADD_VALUE",
                 "amount": 6
             },
@@ -37,7 +37,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:unique_shield_4",
+                "name": "tieredneo:unique_shield_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.1
             },

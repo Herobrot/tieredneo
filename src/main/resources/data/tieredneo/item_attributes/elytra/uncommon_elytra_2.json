@@ -1,5 +1,5 @@
 {
-    "id": "tiered:uncommon_elytra_2",
+    "id": "tieredneo:uncommon_elytra_2",
     "verifiers": [
         {
             "id": "minecraft:elytra"
@@ -11,9 +11,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:uncommon_elytra_2",
+                "name": "tieredneo:uncommon_elytra_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.1
             },
@@ -24,7 +24,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:uncommon_elytra_2",
+                "name": "tieredneo:uncommon_elytra_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.05
             },

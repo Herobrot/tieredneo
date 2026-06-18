@@ -1,5 +1,5 @@
 {
-    "id": "tiered:unique_ranged_4",
+    "id": "tieredneo:unique_ranged_4",
     "verifiers": [
         {
             "tag": "minecraft:enchantable/bow"
@@ -14,9 +14,9 @@
     },
     "attributes": [
         {
-            "type": "tiered:generic.range_attack_damage",
+            "type": "tieredneo:generic.range_attack_damage",
             "modifier": {
-                "name": "tiered:unique_ranged_4",
+                "name": "tieredneo:unique_ranged_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.5
             },
@@ -26,9 +26,9 @@
             ]
         },
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:unique_ranged_4",
+                "name": "tieredneo:unique_ranged_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.5
             },
@@ -40,7 +40,7 @@
         {
             "type": "generic.movement_speed",
             "modifier": {
-                "name": "tiered:unique_ranged_4",
+                "name": "tieredneo:unique_ranged_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.2
             },

@@ -1,5 +1,5 @@
 {
-    "id": "tiered:common_armor_4",
+    "id": "tieredneo:common_armor_4",
     "verifiers": [
         {
             "tag": "minecraft:head_armor"
@@ -22,7 +22,7 @@
         {
             "type": "generic.armor",
             "modifier": {
-                "name": "tiered:common_armor_4",
+                "name": "tieredneo:common_armor_4",
                 "operation": "ADD_VALUE",
                 "amount": -2
             },
@@ -34,9 +34,9 @@
             ]
         },
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:common_armor_4",
+                "name": "tieredneo:common_armor_4",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": -0.3
             },

@@ -1,5 +1,5 @@
 {
-    "id": "tiered:legendary_elytra_2",
+    "id": "tieredneo:legendary_elytra_2",
     "verifiers": [
         {
             "id": "minecraft:elytra"
@@ -13,7 +13,7 @@
         {
             "type": "generic.max_health",
             "modifier": {
-                "name": "tiered:legendary_elytra_2",
+                "name": "tieredneo:legendary_elytra_2",
                 "operation": "ADD_VALUE",
                 "amount": 4
             },
@@ -22,9 +22,9 @@
             ]
         },
         {
-            "type": "tiered:generic.durable",
+            "type": "tieredneo:generic.durable",
             "modifier": {
-                "name": "tiered:legendary_elytra_2",
+                "name": "tieredneo:legendary_elytra_2",
                 "operation": "ADD_MULTIPLIED_TOTAL",
                 "amount": 0.3
             },
