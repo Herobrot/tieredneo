@@ -6,10 +6,10 @@ license="MIT License"
 modId="tieredneo"
 version="1.0.0"
 displayName="Hero's Tiered"
-credits="Globox"
+credits="Globox, Draylar"
 authors="Herobrot"
 description='''
-Adds tiers/modifiers for tools/armors and even more! Inspired from TieredZ's Globox
+Adds tiers/modifiers for tools/armors. Port and inspired from TieredZ's Globox
 '''
 logoFile = "assets/tieredneo/icon.png"
 logoBlur = false
