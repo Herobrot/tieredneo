@@ -30,7 +30,7 @@ public class TieredServerPacketHandler {
                                 syncId, inv,
                                 ContainerLevelAccess.create(p.level(), finalPos)
                         ),
-                        Component.translatable("container.reforge")
+                        Component.translatable("screen.tieredneo.container.reforge")
                 ), buf -> buf.writeBlockPos(finalPos));
             } else {
                 // Switching back to vanilla AnvilScreen
@@ -39,7 +39,7 @@ public class TieredServerPacketHandler {
                                 syncId, inv,
                                 ContainerLevelAccess.create(p.level(), finalPos)
                         ),
-                        Component.translatable("container.repair")
+                        Component.translatable("screen.tieredneo.container.repair")
                 ));
             }
         });

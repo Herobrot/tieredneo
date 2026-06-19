@@ -1,7 +1,7 @@
 package com.herobrot.tieredneo.screen;
 
 import com.herobrot.tieredneo.TieredNeo;
-import com.herobrot.tieredneo.mixin.MouseHandlerAccessor;
+import com.herobrot.tieredneo.config.ConfigInit;
 import com.herobrot.tieredneo.network.payload.ReforgeScreenPayload;
 import com.herobrot.tieredneo.reforge.ReforgeScreen;
 
@@ -27,6 +27,7 @@ public class TabNavigationHelper {
 
     private static final ResourceLocation ANVIL_ICON = TieredNeo.rl("textures/gui/anvil_tab_icon.png");
     private static final ResourceLocation REFORGE_ICON = TieredNeo.rl("textures/gui/reforge_tab_icon.png");
+
     private static final ResourceLocation TAB_SELECTED = ResourceLocation.withDefaultNamespace("container/creative_inventory/tab_top_selected_1");
     private static final ResourceLocation TAB_UNSELECTED = ResourceLocation.withDefaultNamespace("container/creative_inventory/tab_top_unselected_1");
 
@@ -36,6 +37,8 @@ public class TabNavigationHelper {
 
     @SubscribeEvent
     public static void onScreenInit(ScreenEvent.Init.Post event) {
+        if (!ConfigInit.CONFIG.showReforgingTab) return;
+
         Screen screen = event.getScreen();
 
         if (screen instanceof AbstractContainerScreen<?> containerScreen) {
@@ -49,13 +52,13 @@ public class TabNavigationHelper {
                     Minecraft mc = Minecraft.getInstance();
                     GLFW.glfwSetCursorPos(mc.getWindow().getWindow(), savedMouseX, savedMouseY);
 
-                    MouseHandlerAccessor accessor = (MouseHandlerAccessor) mc.mouseHandler;
+                    com.herobrot.tieredneo.mixin.MouseHandlerAccessor accessor = (com.herobrot.tieredneo.mixin.MouseHandlerAccessor) mc.mouseHandler;
                     accessor.setXpos(savedMouseX);
                     accessor.setYpos(savedMouseY);
                 }
 
-                int leftPos = containerScreen.getGuiLeft();
-                int topPos = containerScreen.getGuiTop();
+                int leftPos = containerScreen.getGuiLeft() + ConfigInit.CONFIG.xIconPosition;
+                int topPos = containerScreen.getGuiTop() + ConfigInit.CONFIG.yIconPosition;
 
                 event.addListener(new TabButton(
                         leftPos + 10, topPos - 28, 28, isAnvil ? 32 : 28,

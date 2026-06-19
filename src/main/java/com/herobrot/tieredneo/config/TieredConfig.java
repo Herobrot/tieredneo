@@ -4,37 +4,37 @@ import com.herobrot.tieredneo.TieredNeo;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 @Config(name = TieredNeo.MODID)
 @Config.Gui.Background("minecraft:textures/block/stone.png")
 public class TieredConfig implements ConfigData {
 
     @ConfigEntry.Category("general")
-    @Comment("Items in for example mineshaft chests get modifiers")
+    @ConfigEntry.Gui.Tooltip
     public boolean lootContainerModifier = true;
 
     @ConfigEntry.Category("general")
-    @Comment("Equipped items on entities get modifiers")
+    @ConfigEntry.Gui.Tooltip
     public boolean entityItemModifier = true;
 
     @ConfigEntry.Category("general")
-    @Comment("Crafted items get modifiers")
+    @ConfigEntry.Gui.Tooltip
     public boolean craftingModifier = true;
 
     @ConfigEntry.Category("general")
-    @Comment("Merchant items get modifiers")
+    @ConfigEntry.Gui.Tooltip
     public boolean merchantModifier = true;
 
     @ConfigEntry.Category("general")
-    @Comment("Decreases the biggest weights by this modifier")
+    @ConfigEntry.Gui.Tooltip
     public float reforgeModifier = 0.9F;
 
     @ConfigEntry.Category("general")
-    @Comment("Modify the biggest weights by this modifier per luck")
+    @ConfigEntry.Gui.Tooltip
     public float luckReforgeModifier = 0.02F;
 
     @ConfigEntry.Category("general")
+    @ConfigEntry.Gui.Tooltip
     public boolean uniqueReforge = false;
 
     // -------------------------------------------------------------------------
@@ -56,12 +56,9 @@ public class TieredConfig implements ConfigData {
 
     @ConfigEntry.Category("client_settings")
     @ConfigEntry.Gui.Tooltip
-    // Activa o desactiva el coloreado personalizado de los atributos de los Tiers
     public boolean tieredTooltipAttributes = true;
 
     @ConfigEntry.Category("client_settings")
     @ConfigEntry.Gui.Tooltip
-    // Si está activo, los Tiers "Legendarios" o "Únicos" usarán su color especial
-    // en lugar del Azul tradicional para las estadísticas positivas (buffs).
     public boolean legendaryColorsForAttributes = true;
 }

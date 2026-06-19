@@ -11,6 +11,8 @@ authors="Herobrot"
 description='''
 Adds tiers/modifiers for tools/armors and even more! Inspired from TieredZ's Globox
 '''
+logoFile = "assets/tieredneo/icon.png"
+logoBlur = false
 
 [[mixins]]
 config="tieredneo.mixins.json"

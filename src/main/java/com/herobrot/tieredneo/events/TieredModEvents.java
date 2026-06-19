@@ -1,14 +1,12 @@
-package com.herobrot.tieredneo;
+package com.herobrot.tieredneo.events;
 
+import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.api.CustomEntityAttributes;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 
-/**
- * Eventos que ocurren durante la inicialización del mod (Mod Bus).
- */
 @EventBusSubscriber(modid = TieredNeo.MODID)
 public class TieredModEvents {
 

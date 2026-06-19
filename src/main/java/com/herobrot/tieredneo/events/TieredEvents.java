@@ -1,5 +1,6 @@
-package com.herobrot.tieredneo;
+package com.herobrot.tieredneo.events;
 
+import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.api.AttributeTemplate;
 import com.herobrot.tieredneo.api.ModifierUtils;
 import com.herobrot.tieredneo.api.PotentialAttribute;

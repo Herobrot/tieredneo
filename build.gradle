@@ -28,6 +28,7 @@ sourceSets.main.resources {
 
 repositories {
     maven { url = "https://maven.shedaniel.me/" }
+    maven { url = "https://maven.terraformersmc.com/" }
     mavenCentral()
 }
 
@@ -116,6 +117,9 @@ configurations {
 
 dependencies {
     implementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
+
+    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
+    runtimeOnly "dev.emi:emi-neoforge:${emi_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
