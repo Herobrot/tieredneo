@@ -42,7 +42,9 @@ public final class TieredNetwork {
         PacketDistributor.sendToPlayer(player, payload);
     }
 
+    /* TODO
     public static void sendToAll(CustomPacketPayload payload) {
         PacketDistributor.sendToAllPlayers(payload);
     }
+    */
 }

@@ -9,7 +9,6 @@ import com.herobrot.tieredneo.reforge.ReforgeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.Map;
