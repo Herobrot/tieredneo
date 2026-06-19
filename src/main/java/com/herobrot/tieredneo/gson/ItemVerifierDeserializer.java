@@ -8,7 +8,6 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 public class ItemVerifierDeserializer implements JsonDeserializer<ItemVerifier> {
-
     @Override
     public ItemVerifier deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject obj = json.getAsJsonObject();
@@ -21,15 +20,13 @@ public class ItemVerifierDeserializer implements JsonDeserializer<ItemVerifier> 
             String key = entry.getKey();
             String value = entry.getValue().getAsString();
 
-            // Validamos tipos conocidos para advertir al autor del datapack de sus errores de sintaxis
-            if (!key.equals("item") && !key.equals("id") && !key.equals("tag")
-                    && !key.equals("namespace") && !key.equals("contains") && !key.equals("startswith")) {
-                TieredNeo.LOGGER.warn("[TieredNeo] Datapack Warning: Verificador desconocido o mal formado -> tipo: '{}', valor: '{}'", key, value);
+            if (!key.equals("item") && !key.equals("id") && !key.equals("tag") && !key.equals("namespace") && !key.equals("contains") && !key.equals("startswith")) {
+                TieredNeo.LOGGER.warn("[TieredNeo] Datapack Warning: Verificador desconocido o mal formado -> tipo: " + "'{}', valor: '{}'", key, value);
             }
 
             return new ItemVerifier(key, value);
         }
 
-        throw new JsonParseException("Formato de ItemVerifier vacío o desconocido: " + json.toString());
+        throw new JsonParseException("Formato de ItemVerifier vacío o desconocido: " + json);
     }
 }

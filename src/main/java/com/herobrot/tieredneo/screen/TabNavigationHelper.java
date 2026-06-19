@@ -4,7 +4,6 @@ import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.config.ConfigInit;
 import com.herobrot.tieredneo.network.payload.ReforgeScreenPayload;
 import com.herobrot.tieredneo.reforge.ReforgeScreen;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
@@ -24,13 +23,12 @@ import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = TieredNeo.MODID, value = Dist.CLIENT)
 public class TabNavigationHelper {
-
     private static final ResourceLocation ANVIL_ICON = TieredNeo.rl("textures/gui/anvil_tab_icon.png");
     private static final ResourceLocation REFORGE_ICON = TieredNeo.rl("textures/gui/reforge_tab_icon.png");
-
-    private static final ResourceLocation TAB_SELECTED = ResourceLocation.withDefaultNamespace("container/creative_inventory/tab_top_selected_1");
-    private static final ResourceLocation TAB_UNSELECTED = ResourceLocation.withDefaultNamespace("container/creative_inventory/tab_top_unselected_1");
-
+    private static final ResourceLocation TAB_SELECTED = ResourceLocation.withDefaultNamespace("container" +
+            "/creative_inventory/tab_top_selected_1");
+    private static final ResourceLocation TAB_UNSELECTED = ResourceLocation.withDefaultNamespace("container" +
+            "/creative_inventory/tab_top_unselected_1");
     private static boolean expectingTabChange = false;
     private static double savedMouseX = 0;
     private static double savedMouseY = 0;
@@ -52,7 +50,8 @@ public class TabNavigationHelper {
                     Minecraft mc = Minecraft.getInstance();
                     GLFW.glfwSetCursorPos(mc.getWindow().getWindow(), savedMouseX, savedMouseY);
 
-                    com.herobrot.tieredneo.mixin.MouseHandlerAccessor accessor = (com.herobrot.tieredneo.mixin.MouseHandlerAccessor) mc.mouseHandler;
+                    com.herobrot.tieredneo.mixin.MouseHandlerAccessor accessor =
+                            (com.herobrot.tieredneo.mixin.MouseHandlerAccessor) mc.mouseHandler;
                     accessor.setXpos(savedMouseX);
                     accessor.setYpos(savedMouseY);
                 }
@@ -60,17 +59,11 @@ public class TabNavigationHelper {
                 int leftPos = containerScreen.getGuiLeft() + ConfigInit.CONFIG.xIconPosition;
                 int topPos = containerScreen.getGuiTop() + ConfigInit.CONFIG.yIconPosition;
 
-                event.addListener(new TabButton(
-                        leftPos + 10, topPos - 28, 28, isAnvil ? 32 : 28,
-                        ANVIL_ICON, isAnvil,
-                        (button) -> sendTabChangePacket(false)
-                ));
+                event.addListener(new TabButton(leftPos + 10, topPos - 28, 28, isAnvil ? 32 : 28, ANVIL_ICON, isAnvil
+                        , (button) -> sendTabChangePacket(false)));
 
-                event.addListener(new TabButton(
-                        leftPos + 39, topPos - 28, 28, isReforge ? 32 : 28,
-                        REFORGE_ICON, isReforge,
-                        (button) -> sendTabChangePacket(true)
-                ));
+                event.addListener(new TabButton(leftPos + 39, topPos - 28, 28, isReforge ? 32 : 28, REFORGE_ICON,
+                        isReforge, (button) -> sendTabChangePacket(true)));
             }
         }
     }
@@ -88,7 +81,8 @@ public class TabNavigationHelper {
         private final boolean isSelected;
         private final Runnable onPress;
 
-        public TabButton(int x, int y, int width, int height, ResourceLocation icon, boolean isSelected, java.util.function.Consumer<AbstractButton> onPress) {
+        public TabButton(int x, int y, int width, int height, ResourceLocation icon, boolean isSelected,
+                         java.util.function.Consumer<AbstractButton> onPress) {
             super(x, y, width, height, Component.empty());
             this.icon = icon;
             this.isSelected = isSelected;

@@ -1,36 +1,36 @@
 {
-    "id": "tieredneo:epic_elytra_1",
-    "verifiers": [
-        {
-            "id": "minecraft:elytra"
-        }
-    ],
-    "weight": 8,
-    "style": {
-        "color": "dark_purple"
+  "id": "tieredneo:epic_elytra_1",
+  "verifiers": [
+    {
+      "id": "minecraft:elytra"
+    }
+  ],
+  "weight": 8,
+  "style": {
+    "color": "dark_purple"
+  },
+  "attributes": [
+    {
+      "type": "tieredneo:generic.durable",
+      "modifier": {
+        "name": "tieredneo:epic_elytra_1",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.2
+      },
+      "optional_equipment_slots": [
+        "CHEST"
+      ]
     },
-    "attributes": [
-        {
-            "type": "tieredneo:generic.durable",
-            "modifier": {
-                "name": "tieredneo:epic_elytra_1",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": 0.2
-            },
-            "optional_equipment_slots": [
-                "CHEST"
-            ]
-        },
-        {
-            "type": "generic.max_health",
-            "modifier": {
-                "name": "tieredneo:epic_elytra_1",
-                "operation": "ADD_VALUE",
-                "amount": 2
-            },
-            "optional_equipment_slots": [
-                "CHEST"
-            ]
-        }
-    ]
+    {
+      "type": "generic.max_health",
+      "modifier": {
+        "name": "tieredneo:epic_elytra_1",
+        "operation": "ADD_VALUE",
+        "amount": 2
+      },
+      "optional_equipment_slots": [
+        "CHEST"
+      ]
+    }
+  ]
 }

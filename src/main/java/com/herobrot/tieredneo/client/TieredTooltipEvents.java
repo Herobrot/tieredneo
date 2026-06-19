@@ -7,7 +7,6 @@ import com.herobrot.tieredneo.api.ModifierUtils;
 import com.herobrot.tieredneo.api.PotentialAttribute;
 import com.herobrot.tieredneo.config.ConfigInit;
 import com.herobrot.tieredneo.util.TieredTooltip;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -25,7 +24,6 @@ import java.util.List;
 
 @EventBusSubscriber(modid = TieredNeo.MODID, value = Dist.CLIENT)
 public class TieredTooltipEvents {
-
     @SubscribeEvent
     public static void onRenderTooltipPre(RenderTooltipEvent.Pre event) {
         if (!ConfigInit.CONFIG.tieredTooltip) return;
@@ -46,18 +44,10 @@ public class TieredTooltipEvents {
 
         if (matchedTemplate != null) {
             event.setCanceled(true);
-            TieredTooltip.renderTieredTooltip(
-                    event.getGraphics(),
-                    event.getFont(),
-                    event.getComponents(),
-                    event.getX(),
-                    event.getY(),
-                    matchedTemplate
-            );
+            TieredTooltip.renderTieredTooltip(event.getGraphics(), event.getFont(), event.getComponents(),
+                    event.getX(), event.getY(), matchedTemplate);
         }
     }
-
-    // --- SISTEMA DE COLOREADO NATIVO ---
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
@@ -69,8 +59,9 @@ public class TieredTooltipEvents {
         ResourceLocation tierId = ModifierUtils.getAttributeId(stack);
         if (tierId == null) return;
 
-        boolean isLegendary = ConfigInit.CONFIG.legendaryColorsForAttributes &&
-                (tierId.getPath().toLowerCase().contains("legendary") || tierId.getPath().toLowerCase().contains("unique"));
+        boolean isLegendary =
+                ConfigInit.CONFIG.legendaryColorsForAttributes && (tierId.getPath().toLowerCase().contains("legendary"
+                ) || tierId.getPath().toLowerCase().contains("unique"));
 
         TextColor legendaryColor = null;
         if (isLegendary) {
@@ -87,36 +78,28 @@ public class TieredTooltipEvents {
             int modType = getModifierType(line);
 
             if (modType == 1 && legendaryColor != null) {
-                // Estadísticas Base -> Color Legendario (Si aplica)
+
                 tooltip.set(i, forceColor(line, legendaryColor));
             } else if (modType == 2) {
-                // Buffs Extra (+X) -> SIEMPRE Verdes
+
                 tooltip.set(i, forceColor(line, ChatFormatting.GREEN));
             } else if (modType == 3) {
-                // Debuffs Extra (-X) -> SIEMPRE Rojos
+
                 tooltip.set(i, forceColor(line, ChatFormatting.RED));
             }
         }
     }
 
-    /**
-     * Escanea el componente detectando llaves de Vanilla y de NeoForge.
-     * Retorna: 1 (Base), 2 (Buff Extra), 3 (Debuff Extra), 0 (Ninguno)
-     */
     private static int getModifierType(Component component) {
         if (component.getContents() instanceof TranslatableContents tc) {
             String key = tc.getKey();
 
-            // Estadísticas Base (Daño, Velocidad, etc)
             if (key.startsWith("attribute.modifier.equals.")) return 1;
 
-            // Buffs (Detecta tanto el Vanilla antiguo como el formato NeoForge)
             if (key.startsWith("attribute.modifier.plus.") || key.startsWith("neoforge.modifier.plus")) return 2;
 
-            // Debuffs (Detecta tanto el Vanilla antiguo como el formato NeoForge)
             if (key.startsWith("attribute.modifier.take.") || key.startsWith("neoforge.modifier.take")) return 3;
 
-            // Escanear los argumentos internos de la traducción
             for (Object arg : tc.getArgs()) {
                 if (arg instanceof Component argComp) {
                     int type = getModifierType(argComp);
@@ -125,7 +108,6 @@ public class TieredTooltipEvents {
             }
         }
 
-        // Escanear los hermanos del componente actual
         for (Component sibling : component.getSiblings()) {
             int type = getModifierType(sibling);
             if (type != 0) return type;
@@ -134,16 +116,10 @@ public class TieredTooltipEvents {
         return 0;
     }
 
-    /**
-     * Extrae el texto traducido final y le inyecta el color TextColor (Legendarios).
-     */
     private static Component forceColor(Component component, TextColor newColor) {
         return Component.literal(component.getString()).withStyle(Style.EMPTY.withColor(newColor));
     }
 
-    /**
-     * Extrae el texto traducido final y le inyecta el ChatFormatting (Verde/Rojo).
-     */
     private static Component forceColor(Component component, ChatFormatting format) {
         return Component.literal(component.getString()).withStyle(Style.EMPTY.applyFormat(format));
     }

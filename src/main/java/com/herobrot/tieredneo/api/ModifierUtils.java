@@ -3,7 +3,6 @@ package com.herobrot.tieredneo.api;
 import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.config.ConfigInit;
 import com.herobrot.tieredneo.util.WeightedList;
-
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +10,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,59 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Core utility for assigning, removing, and updating tier data components
- * on ItemStacks.
-
- * Ported from Fabric's ModifierUtils with the following changes:
- *  - SortList replaced by WeightedList<ResourceLocation>
- *  - NBT manipulation replaced by DataComponents (stack.set / stack.has / stack.remove)
- *  - TierDataComponent.tier is now a ResourceLocation, not a String
- *  - Dual namespace check ("tiered:generic.durable" + "tieredneo:generic.durable")
- *    for TieredZ datapack backwards compatibility
- *  - getOperationId() removed; AttributeModifier.Operation.ordinal() used directly
- *  - LevelZ integration removed (Fabric-only mod, no NeoForge port exists)
- *  - Luck modifier preserved (vanilla Player.getLuck() works on NeoForge)
- */
 public final class ModifierUtils {
-
     private ModifierUtils() {}
 
-    // -------------------------------------------------------------------------
-    // Weighted random selection
-    // -------------------------------------------------------------------------
-
-    /**
-     * Picks a random PotentialAttribute ID that is valid for the given item,
-     * using weighted probability. Returns null if no attributes are valid.
-
-     * When reforge=true:
-     *  - All attributes with weight >= 0 are eligible (including weight-0).
-     *  - Each eligible weight gets +1 before dampening (prevents 0-weight starvation).
-     *  - The heaviest half of entries is dampened by ConfigInit.reforgeModifier
-     *    to make the reforge feel "fair" rather than always producing the same tier.
-
-     * Luck modifier:
-     *  - Dampens the heaviest third proportionally to player luck.
-     *  - Higher luck → heavier entries dampened more → better tiers more likely.
-     */
-
     @Nullable
-    public static ResourceLocation getRandomAttributeIDFor(@Nullable Player player,
-                                                           Item item,
-                                                           boolean reforge) {
+    public static ResourceLocation getRandomAttributeIDFor(@Nullable Player player, Item item, boolean reforge) {
         WeightedList<ResourceLocation> weighted = getResourceLocationWeightedList(item, reforge);
 
         if (weighted.isEmpty()) return null;
 
-        // Apply reforge dampening to the heaviest entries
         if (reforge && weighted.size() > 2) {
             List<WeightedList.Entry<ResourceLocation>> sorted = weighted.sortedAscending();
             List<WeightedList.Entry<ResourceLocation>> dampened = getEntries(sorted);
             return WeightedList.fromEntries(dampened).draw();
         }
 
-        // Apply luck dampening if a player is present
         if (player != null) {
             float luck = player.getLuck();
             if (luck != 0f) {
@@ -85,10 +45,8 @@ public final class ModifierUtils {
     }
 
     private static @NotNull WeightedList<ResourceLocation> getResourceLocationWeightedList(Item item, boolean reforge) {
-        Map<ResourceLocation, PotentialAttribute> allAttributes =
-                TieredNeo.ATTRIBUTE_DATA_LOADER.getItemAttributes();
+        Map<ResourceLocation, PotentialAttribute> allAttributes = TieredNeo.ATTRIBUTE_DATA_LOADER.getItemAttributes();
 
-        // Build initial weighted list
         WeightedList<ResourceLocation> weighted = new WeightedList<>();
         allAttributes.forEach((id, attribute) -> {
             if (attribute.isValid(item)) {
@@ -121,9 +79,7 @@ public final class ModifierUtils {
         List<WeightedList.Entry<ResourceLocation>> dampened = new ArrayList<>();
         for (WeightedList.Entry<ResourceLocation> entry : sorted) {
             if (entry.weight() > maxWeight / 3) {
-                dampened.add(entry.withWeight(
-                        (int) (entry.weight() * (1.0f - luckMod * luck))
-                ));
+                dampened.add(entry.withWeight((int) (entry.weight() * (1.0f - luckMod * luck))));
             } else {
                 dampened.add(entry);
             }
@@ -131,19 +87,7 @@ public final class ModifierUtils {
         return dampened;
     }
 
-    // -------------------------------------------------------------------------
-    // Component management
-    // -------------------------------------------------------------------------
-
-    /**
-     * Assigns a random tier to an ItemStack if it has none and is not restricted.
-
-     * Also caches the durable factor and operation ordinal directly into the
-     * component so they can be read without a map lookup during tick events.
-     */
-    public static void setItemStackAttribute(@Nullable Player player,
-                                             ItemStack stack,
-                                             boolean reforge) {
+    public static void setItemStackAttribute(@Nullable Player player, ItemStack stack, boolean reforge) {
         if (stack.has(TieredNeo.TIER_TYPE()) || stack.is(TieredItemTags.MODIFIER_RESTRICTED)) return;
 
         ResourceLocation id = getRandomAttributeIDFor(player, stack.getItem(), reforge);
@@ -155,15 +99,10 @@ public final class ModifierUtils {
         }
     }
 
-    /** Removes the tier component from an ItemStack, if present. */
     public static void removeItemStackAttribute(ItemStack stack) {
         stack.remove(TieredNeo.TIER_TYPE());
     }
 
-    /**
-     * Returns the tier ResourceLocation of the given stack, or null.
-     * Replaces the scattered stack.get(Tiered.TIER).tier() calls.
-     */
     @Nullable
     public static ResourceLocation getAttributeId(ItemStack stack) {
         TierDataComponent component = stack.get(TieredNeo.TIER_TYPE());
@@ -171,19 +110,6 @@ public final class ModifierUtils {
         return component.tierId();
     }
 
-    // -------------------------------------------------------------------------
-    // Inventory sync after datapack reload
-    // -------------------------------------------------------------------------
-
-    /**
-     * Called after a datapack reload to verify that each tiered item in the
-     * player's inventory still has a valid attribute. If the attribute no longer
-     * exists in the reloaded data, the component is replaced with a freshly
-     * rolled one from the new dataset.
-
-     * Uses Map.copyOf() snapshot of the attribute map to avoid reading a
-     * partially-updated map if the reload races with a tick.
-     */
     public static void updateInventoryComponents(Inventory inventory) {
         Map<ResourceLocation, PotentialAttribute> snapshot =
                 Map.copyOf(TieredNeo.ATTRIBUTE_DATA_LOADER.getItemAttributes());
@@ -197,9 +123,8 @@ public final class ModifierUtils {
 
             ResourceLocation tierId = component.tierId();
             Item stackItem = stack.getItem();
-            boolean stillValid = snapshot.entrySet().stream()
-                    .anyMatch(e -> e.getValue().isValid(stackItem)
-                            && e.getKey().equals(tierId));
+            boolean stillValid =
+                    snapshot.entrySet().stream().anyMatch(e -> e.getValue().isValid(stackItem) && e.getKey().equals(tierId));
 
             if (!stillValid) {
                 stack.remove(TieredNeo.TIER_TYPE());
@@ -223,7 +148,7 @@ public final class ModifierUtils {
 
     public static void applyTierToStack(ItemStack stack, ResourceLocation tierId, PotentialAttribute attr) {
         float durableFactor = -1f;
-        int operation = 2; // ADD_MULTIPLIED_TOTAL default
+        int operation = 2;
 
         for (AttributeTemplate t : attr.getAttributes()) {
             String typeId = t.getAttributeTypeID();
@@ -239,19 +164,16 @@ public final class ModifierUtils {
         if (durableFactor > 0 && stack.has(DataComponents.MAX_DAMAGE)) {
             int currentMax = stack.getOrDefault(DataComponents.MAX_DAMAGE, 0);
             if (currentMax > 0) {
-                int newMax = operation == 0
-                        ? currentMax + (int) durableFactor
-                        : currentMax + (int) (currentMax * durableFactor);
+                int newMax = operation == 0 ? currentMax + (int) durableFactor :
+                        currentMax + (int) (currentMax * durableFactor);
                 stack.set(DataComponents.MAX_DAMAGE, newMax);
             }
         }
 
         Component pureBaseName = stack.getItem().getName(stack.getItem().getDefaultInstance());
 
-        Component fullName = Component.empty()
-                .append(Component.translatable(attr.getID() + ".label").withStyle(attr.getStyle()))
-                .append(Component.literal(" ").withStyle(attr.getStyle()))
-                .append(pureBaseName.copy().withStyle(attr.getStyle()));
+        Component fullName =
+                Component.empty().append(Component.translatable(attr.getID() + ".label").withStyle(attr.getStyle())).append(Component.literal(" ").withStyle(attr.getStyle())).append(pureBaseName.copy().withStyle(attr.getStyle()));
 
         stack.set(DataComponents.ITEM_NAME, fullName);
     }

@@ -6,7 +6,6 @@ import com.herobrot.tieredneo.api.TieredItemTags;
 import com.herobrot.tieredneo.config.ConfigInit;
 import com.herobrot.tieredneo.network.TieredNetwork;
 import com.herobrot.tieredneo.network.payload.ReforgeReadyPayload;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,7 +27,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class ReforgeMenu extends AbstractContainerMenu {
-
     private final SimpleContainer container = new SimpleContainer(3) {
         @Override
         public void setChanged() {
@@ -36,12 +34,10 @@ public class ReforgeMenu extends AbstractContainerMenu {
             ReforgeMenu.this.slotsChanged(this);
         }
     };
-
     public final ContainerLevelAccess access;
     private final Player player;
     private BlockPos pos;
 
-    // Client-side constructor (triggered by IMenuTypeExtension and FriendlyByteBuf)
     public ReforgeMenu(int windowId, Inventory playerInventory, FriendlyByteBuf data) {
         this(windowId, playerInventory, ContainerLevelAccess.NULL);
         if (data != null) {
@@ -49,17 +45,15 @@ public class ReforgeMenu extends AbstractContainerMenu {
         }
     }
 
-    // Server-side constructor
     public ReforgeMenu(int windowId, Inventory playerInventory, ContainerLevelAccess access) {
         super(TieredNeo.REFORGE_MENU.get(), windowId);
         this.access = access;
         this.player = playerInventory.player;
 
-        // Slot 0: Base Item (Material)
         this.addSlot(new Slot(this.container, 0, 45, 47));
-        // Slot 1: Equipment to Reforge
+
         this.addSlot(new Slot(this.container, 1, 80, 34));
-        // Slot 2: Addition (Catalyst)
+
         this.addSlot(new Slot(this.container, 2, 115, 47) {
             @Override
             public boolean mayPlace(@NotNull ItemStack stack) {
@@ -67,13 +61,12 @@ public class ReforgeMenu extends AbstractContainerMenu {
             }
         });
 
-        // Player Inventory
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
                 this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
-        // Player Hotbar
+
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
@@ -91,14 +84,13 @@ public class ReforgeMenu extends AbstractContainerMenu {
     }
 
     private void updateResult() {
-        ItemStack stack = this.getSlot(1).getItem(); // Equipment
+        ItemStack stack = this.getSlot(1).getItem();
         boolean reforgeReady;
         if (this.getSlot(0).hasItem() && this.getSlot(1).hasItem() && this.getSlot(2).hasItem()) {
             Item item = stack.getItem();
 
-            if (!stack.is(TieredItemTags.MODIFIER_RESTRICTED)
-                    && ModifierUtils.getRandomAttributeIDFor(null, item, true) != null
-                    && !stack.isDamaged()) {
+            if (!stack.is(TieredItemTags.MODIFIER_RESTRICTED) && ModifierUtils.getRandomAttributeIDFor(null, item,
+                    true) != null && !stack.isDamaged()) {
 
                 List<Item> items = TieredNeo.REFORGE_DATA_LOADER.getReforgeBaseItems(item);
                 ItemStack baseItem = this.getSlot(0).getItem();
@@ -138,7 +130,7 @@ public class ReforgeMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return stillValid(this.access, player, net.minecraft.world.level.block.Blocks.ANVIL); // Replace with your custom block if applicable
+        return stillValid(this.access, player, net.minecraft.world.level.block.Blocks.ANVIL);
     }
 
     @Override
@@ -150,16 +142,16 @@ public class ReforgeMenu extends AbstractContainerMenu {
             ItemStack slotStack = slot.getItem();
             itemStack = slotStack.copy();
 
-            if (index == 1) { // Equipment slot
+            if (index == 1) {
                 if (!this.moveItemStackTo(slotStack, 3, 39, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickCraft(slotStack, itemStack);
-            } else if (index == 0 || index == 2) { // Base or Catalyst
+            } else if (index == 0 || index == 2) {
                 if (!this.moveItemStackTo(slotStack, 3, 39, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (index >= 3 && index < 39) { // Inventory -> Container
+            } else if (index >= 3 && index < 39) {
                 if (itemStack.is(TieredItemTags.REFORGE_ADDITION) && !this.moveItemStackTo(slotStack, 2, 3, false)) {
                     return ItemStack.EMPTY;
                 }
@@ -171,7 +163,8 @@ public class ReforgeMenu extends AbstractContainerMenu {
                     if (item instanceof ArmorItem armorItem && armorItem.getMaterial().value().repairIngredient().get().test(itemStack) && !this.moveItemStackTo(slotStack, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                    if (itemStack.is(TieredItemTags.REFORGE_BASE_ITEM) && !this.moveItemStackTo(slotStack, 0, 1, false)) {
+                    if (itemStack.is(TieredItemTags.REFORGE_BASE_ITEM) && !this.moveItemStackTo(slotStack, 0, 1,
+                            false)) {
                         return ItemStack.EMPTY;
                     }
                     List<Item> items = TieredNeo.REFORGE_DATA_LOADER.getReforgeBaseItems(item);

@@ -9,7 +9,6 @@ import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 
 @EventBusSubscriber(modid = TieredNeo.MODID)
 public class TieredModEvents {
-
     @SubscribeEvent
     public static void onEntityAttributeModification(EntityAttributeModificationEvent event) {
         event.add(EntityType.PLAYER, CustomEntityAttributes.DIG_SPEED);

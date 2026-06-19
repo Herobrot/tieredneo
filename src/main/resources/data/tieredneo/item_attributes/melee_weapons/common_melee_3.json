@@ -1,47 +1,47 @@
 {
-    "id": "tieredneo:common_melee_3",
-    "verifiers": [
-        {
-            "tag": "minecraft:swords"
-        }
-    ],
-    "weight": 50,
-    "style": {
-        "color": "gray"
+  "id": "tieredneo:common_melee_3",
+  "verifiers": [
+    {
+      "tag": "minecraft:swords"
+    }
+  ],
+  "weight": 50,
+  "style": {
+    "color": "gray"
+  },
+  "attributes": [
+    {
+      "type": "tieredneo:generic.crit_chance",
+      "modifier": {
+        "name": "tieredneo:common_melee_3",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.15
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
     },
-    "attributes": [
-        {
-            "type": "tieredneo:generic.crit_chance",
-            "modifier": {
-                "name": "tieredneo:common_melee_3",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.15
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        },
-        {
-            "type": "tieredneo:generic.durable",
-            "modifier": {
-                "name": "tieredneo:common_melee_3",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.3
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        },
-        {
-            "type": "generic.luck",
-            "modifier": {
-                "name": "tieredneo:common_melee_3",
-                "operation": "ADD_VALUE",
-                "amount": -2
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        }
-    ]
+    {
+      "type": "tieredneo:generic.durable",
+      "modifier": {
+        "name": "tieredneo:common_melee_3",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.3
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "generic.luck",
+      "modifier": {
+        "name": "tieredneo:common_melee_3",
+        "operation": "ADD_VALUE",
+        "amount": -2
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
 }

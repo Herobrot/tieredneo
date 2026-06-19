@@ -1,39 +1,39 @@
-modLoader="javafml"
-loaderVersion="[1,)"
-license="MIT License"
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT License"
 
 [[mods]]
-modId="tieredneo"
-version="1.0.0"
-displayName="Hero's Tiered"
-credits="Globox, Draylar"
-authors="Herobrot"
-description='''
+modId = "tieredneo"
+version = "1.0.0"
+displayName = "Hero's Tiered"
+credits = "Globox, Draylar"
+authors = "Herobrot"
+description = '''
 Adds tiers/modifiers for tools/armors. Port and inspired from TieredZ's Globox
 '''
 logoFile = "assets/tieredneo/icon.png"
 logoBlur = false
 
 [[mixins]]
-config="tieredneo.mixins.json"
+config = "tieredneo.mixins.json"
 
 [[dependencies.tieredneo]]
-modId="neoforge"
-type="required"
-versionRange="[21.0,)"
-ordering="NONE"
-side="BOTH"
+modId = "neoforge"
+type = "required"
+versionRange = "[21.0,)"
+ordering = "NONE"
+side = "BOTH"
 
 [[dependencies.tieredneo]]
-modId="minecraft"
-type="required"
-versionRange="[1.21,)"
-ordering="NONE"
-side="BOTH"
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21,)"
+ordering = "NONE"
+side = "BOTH"
 
 [[dependencies.tieredneo]]
-modId="cloth_config"
-type="required"
-versionRange="[15.0.0,)"
-ordering="AFTER"
-side="BOTH"
+modId = "cloth_config"
+type = "required"
+versionRange = "[15.0.0,)"
+ordering = "AFTER"
+side = "BOTH"

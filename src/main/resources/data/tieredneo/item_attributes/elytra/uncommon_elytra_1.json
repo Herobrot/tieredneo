@@ -1,25 +1,25 @@
 {
-    "id": "tieredneo:uncommon_elytra_1",
-    "verifiers": [
-        {
-            "id": "minecraft:elytra"
-        }
-    ],
-    "weight": 35,
-    "style": {
-        "color": "dark_green"
-    },
-    "attributes": [
-        {
-            "type": "tieredneo:generic.durable",
-            "modifier": {
-                "name": "tieredneo:uncommon_elytra_1",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.25
-            },
-            "optional_equipment_slots": [
-                "CHEST"
-            ]
-        }
-    ]
+  "id": "tieredneo:uncommon_elytra_1",
+  "verifiers": [
+    {
+      "id": "minecraft:elytra"
+    }
+  ],
+  "weight": 35,
+  "style": {
+    "color": "dark_green"
+  },
+  "attributes": [
+    {
+      "type": "tieredneo:generic.durable",
+      "modifier": {
+        "name": "tieredneo:uncommon_elytra_1",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.25
+      },
+      "optional_equipment_slots": [
+        "CHEST"
+      ]
+    }
+  ]
 }

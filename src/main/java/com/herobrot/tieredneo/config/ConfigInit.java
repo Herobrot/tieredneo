@@ -4,7 +4,6 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 
 public class ConfigInit {
-
     public static TieredConfig CONFIG = new TieredConfig();
 
     public static void init() {

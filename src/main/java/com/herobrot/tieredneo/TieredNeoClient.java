@@ -6,7 +6,6 @@ import com.herobrot.tieredneo.config.TieredConfig;
 import com.herobrot.tieredneo.data.TooltipBorderLoader;
 import com.herobrot.tieredneo.network.TieredClientPacketHandler;
 import com.herobrot.tieredneo.reforge.ReforgeScreen;
-
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -23,47 +22,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Client-only entry point and event listener.
-
- * Fixes over the original:
- *  - CACHED_ATTRIBUTES and BORDER_TEMPLATES are cleared on logout
- *    (ClientPlayerNetworkEvent.LoggingOut) to prevent data from a previous
- *    server leaking into a new connection.
- *  - Screen and reload-listener registration moved to dedicated events.
- */
 @EventBusSubscriber(modid = TieredNeo.MODID, value = Dist.CLIENT)
 public class TieredNeoClient {
-
-    /**
-     * Registra la pantalla de configuración en el menú de Mods de NeoForge.
-     * Llamado desde el constructor principal exclusivamente cuando Dist.CLIENT es detectado.
-     */
     public static void registerConfigScreen(ModContainer container) {
         container.registerExtensionPoint(IConfigScreenFactory.class,
                 (modContainer, parentScreen) -> AutoConfig.getConfigScreen(TieredConfig.class, parentScreen).get());
     }
 
-    // -------------------------------------------------------------------------
-    // Client-side caches
-    // -------------------------------------------------------------------------
-
-    /**
-     * Attributes received from the server. Populated by the AttributeSyncPayload
-     * handler and cleared on logout to prevent cross-server contamination.
-     */
-    public static final Map<ResourceLocation, PotentialAttribute> CACHED_ATTRIBUTES =
-            new HashMap<>();
-
-    /**
-     * Tooltip border templates loaded from resource packs.
-     * Cleared on logout alongside CACHED_ATTRIBUTES.
-     */
+    public static final Map<ResourceLocation, PotentialAttribute> CACHED_ATTRIBUTES = new HashMap<>();
     public static final List<BorderTemplate> BORDER_TEMPLATES = new ArrayList<>();
-
-    // -------------------------------------------------------------------------
-    // Mod bus events
-    // -------------------------------------------------------------------------
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
@@ -73,7 +40,6 @@ public class TieredNeoClient {
         });
     }
 
-    // NUEVO EVENTO OFICIAL PARA REGISTRAR PANTALLAS EN 1.21.1
     @SubscribeEvent
     public static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
         event.register(TieredNeo.REFORGE_MENU.get(), ReforgeScreen::new);

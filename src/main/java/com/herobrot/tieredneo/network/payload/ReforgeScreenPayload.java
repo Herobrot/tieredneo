@@ -9,11 +9,9 @@ import org.jetbrains.annotations.NotNull;
 
 public record ReforgeScreenPayload(boolean reforgingScreen) implements CustomPacketPayload {
     public static final Type<ReforgeScreenPayload> TYPE = new Type<>(TieredNeo.rl("reforge_screen"));
+    public static final StreamCodec<ByteBuf, ReforgeScreenPayload> STREAM_CODEC =
+            StreamCodec.composite(ByteBufCodecs.BOOL, ReforgeScreenPayload::reforgingScreen, ReforgeScreenPayload::new);
 
-    public static final StreamCodec<ByteBuf, ReforgeScreenPayload> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL, ReforgeScreenPayload::reforgingScreen,
-            ReforgeScreenPayload::new
-    );
-
-    @Override public @NotNull Type<? extends CustomPacketPayload> type() { return TYPE; }
+    @Override
+    public @NotNull Type<? extends CustomPacketPayload> type() {return TYPE;}
 }

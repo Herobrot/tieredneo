@@ -9,7 +9,6 @@ import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 
 @EventBusSubscriber(modid = TieredNeo.MODID, value = Dist.CLIENT)
 public class TieredClientEvents {
-
     @SubscribeEvent
     public static void onPlayerLoggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
         TieredNeoClient.CACHED_ATTRIBUTES.clear();

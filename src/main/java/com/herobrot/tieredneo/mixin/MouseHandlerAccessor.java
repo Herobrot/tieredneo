@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(MouseHandler.class)
 public interface MouseHandlerAccessor {
-
     @Accessor("xpos")
     void setXpos(double xpos);
 

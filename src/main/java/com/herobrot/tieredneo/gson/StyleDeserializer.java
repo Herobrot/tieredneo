@@ -11,7 +11,6 @@ import net.minecraft.network.chat.TextColor;
 import java.lang.reflect.Type;
 
 public class StyleDeserializer implements JsonDeserializer<Style> {
-
     @Override
     public Style deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();

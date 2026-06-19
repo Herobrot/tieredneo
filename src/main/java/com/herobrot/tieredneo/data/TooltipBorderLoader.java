@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.TieredNeoClient;
 import com.herobrot.tieredneo.api.BorderTemplate;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -18,11 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Loads assets/namespace/tooltips/*.json from client resource packs.
- */
 public class TooltipBorderLoader extends SimpleJsonResourceReloadListener {
-
     private static final Gson GSON = new Gson();
 
     public TooltipBorderLoader() {
@@ -31,8 +26,7 @@ public class TooltipBorderLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(@NotNull Map<ResourceLocation, JsonElement> objectMap,
-                         @NotNull ResourceManager resourceManager,
-                         @NotNull ProfilerFiller profiler) {
+                         @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profiler) {
 
         List<BorderTemplate> newTemplates = new ArrayList<>();
 
@@ -48,19 +42,13 @@ public class TooltipBorderLoader extends SimpleJsonResourceReloadListener {
                             t.getAsJsonArray("decider").forEach(d -> decider.add(d.getAsString()));
                         }
 
-                        // Fallback idéntico al original si no hay gradiente de fondo
-                        int backgroundGradient = t.has("background_gradient")
-                                ? new BigInteger(t.get("background_gradient").getAsString(), 16).intValue()
-                                : -267386864;
+                        int backgroundGradient = t.has("background_gradient") ? new BigInteger(t.get(
+                                "background_gradient").getAsString(), 16).intValue() : -267386864;
 
-                        newTemplates.add(new BorderTemplate(
-                                t.get("index").getAsInt(),
-                                t.get("texture").getAsString(),
-                                new BigInteger(t.get("start_border_gradient").getAsString(), 16).intValue(),
+                        newTemplates.add(new BorderTemplate(t.get("index").getAsInt(), t.get("texture").getAsString()
+                                , new BigInteger(t.get("start_border_gradient").getAsString(), 16).intValue(),
                                 new BigInteger(t.get("end_border_gradient").getAsString(), 16).intValue(),
-                                backgroundGradient,
-                                decider
-                        ));
+                                backgroundGradient, decider));
                     });
                 }
             } catch (Exception e) {
@@ -68,7 +56,6 @@ public class TooltipBorderLoader extends SimpleJsonResourceReloadListener {
             }
         });
 
-        // Limpiar y poblar la caché del cliente de forma segura en el hilo principal
         TieredNeoClient.BORDER_TEMPLATES.clear();
         TieredNeoClient.BORDER_TEMPLATES.addAll(newTemplates);
         TieredNeo.LOGGER.info("[TieredNeo] Cargadas {} plantillas de bordes visuales.", newTemplates.size());

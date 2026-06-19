@@ -1,50 +1,50 @@
 {
-    "id": "tieredneo:rare_shield_4",
-    "verifiers": [
-        {
-            "tag": "c:tools/shields"
-        }
-    ],
-    "weight": 15,
-    "style": {
-        "color": "blue"
+  "id": "tieredneo:rare_shield_4",
+  "verifiers": [
+    {
+      "tag": "c:tools/shields"
+    }
+  ],
+  "weight": 15,
+  "style": {
+    "color": "blue"
+  },
+  "attributes": [
+    {
+      "type": "generic.armor",
+      "modifier": {
+        "name": "tieredneo:rare_shield_4",
+        "operation": "ADD_VALUE",
+        "amount": 1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
     },
-    "attributes": [
-        {
-            "type": "generic.armor",
-            "modifier": {
-                "name": "tieredneo:rare_shield_4",
-                "operation": "ADD_VALUE",
-                "amount": 1
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        },
-        {
-            "type": "generic.max_health",
-            "modifier": {
-                "name": "tieredneo:rare_shield_4",
-                "operation": "ADD_VALUE",
-                "amount": 1
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        },
-        {
-            "type": "generic.movement_speed",
-            "modifier": {
-                "name": "tieredneo:rare_shield_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.05
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        }
-    ]
+    {
+      "type": "generic.max_health",
+      "modifier": {
+        "name": "tieredneo:rare_shield_4",
+        "operation": "ADD_VALUE",
+        "amount": 1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
+    },
+    {
+      "type": "generic.movement_speed",
+      "modifier": {
+        "name": "tieredneo:rare_shield_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.05
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
+    }
+  ]
 }

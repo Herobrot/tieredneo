@@ -8,10 +8,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 public class ItemVerifier {
-
     @SerializedName("type")
     private String type;
-
     @SerializedName("value")
     private String value;
 
@@ -28,7 +26,7 @@ public class ItemVerifier {
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
 
         return switch (type.toLowerCase()) {
-            // Soporte para ambos nombres heredados de TieredZ
+
             case "item", "id" -> itemId.toString().equals(value);
 
             case "tag" -> {
@@ -43,11 +41,11 @@ public class ItemVerifier {
             case "contains" -> itemId.getPath().contains(value);
             case "startswith" -> itemId.toString().startsWith(value);
 
-            // Fallo silencioso por rendimiento. Las advertencias se dan en el Deserializer.
             default -> false;
         };
     }
 
-    public String getType()  { return type; }
-    public String getValue() { return value; }
+    public String getType() {return type;}
+
+    public String getValue() {return value;}
 }

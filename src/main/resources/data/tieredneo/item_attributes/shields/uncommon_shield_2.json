@@ -1,50 +1,50 @@
 {
-    "id": "tieredneo:uncommon_shield_2",
-    "verifiers": [
-        {
-            "tag": "c:tools/shields"
-        }
-    ],
-    "weight": 35,
-    "style": {
-        "color": "dark_green"
+  "id": "tieredneo:uncommon_shield_2",
+  "verifiers": [
+    {
+      "tag": "c:tools/shields"
+    }
+  ],
+  "weight": 35,
+  "style": {
+    "color": "dark_green"
+  },
+  "attributes": [
+    {
+      "type": "tieredneo:generic.durable",
+      "modifier": {
+        "name": "tieredneo:uncommon_shield_2",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
     },
-    "attributes": [
-        {
-            "type": "tieredneo:generic.durable",
-            "modifier": {
-                "name": "tieredneo:uncommon_shield_2",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.1
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        },
-        {
-            "type": "generic.max_health",
-            "modifier": {
-                "name": "tieredneo:uncommon_shield_2",
-                "operation": "ADD_VALUE",
-                "amount": -2
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        },
-        {
-            "type": "generic.movement_speed",
-            "modifier": {
-                "name": "tieredneo:uncommon_shield_2",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.1
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        }
-    ]
+    {
+      "type": "generic.max_health",
+      "modifier": {
+        "name": "tieredneo:uncommon_shield_2",
+        "operation": "ADD_VALUE",
+        "amount": -2
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
+    },
+    {
+      "type": "generic.movement_speed",
+      "modifier": {
+        "name": "tieredneo:uncommon_shield_2",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
+    }
+  ]
 }

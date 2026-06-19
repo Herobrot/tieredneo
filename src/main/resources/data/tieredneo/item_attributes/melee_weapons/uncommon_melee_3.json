@@ -1,47 +1,47 @@
 {
-    "id": "tieredneo:uncommon_melee_3",
-    "verifiers": [
-        {
-            "tag": "minecraft:swords"
-        }
-    ],
-    "weight": 35,
-    "style": {
-        "color": "dark_green"
+  "id": "tieredneo:uncommon_melee_3",
+  "verifiers": [
+    {
+      "tag": "minecraft:swords"
+    }
+  ],
+  "weight": 35,
+  "style": {
+    "color": "dark_green"
+  },
+  "attributes": [
+    {
+      "type": "tieredneo:generic.crit_chance",
+      "modifier": {
+        "name": "tieredneo:uncommon_melee_3",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.05
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
     },
-    "attributes": [
-        {
-            "type": "tieredneo:generic.crit_chance",
-            "modifier": {
-                "name": "tieredneo:uncommon_melee_3",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.05
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        },
-        {
-            "type": "tieredneo:generic.durable",
-            "modifier": {
-                "name": "tieredneo:uncommon_melee_3",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.15
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        },
-        {
-            "type": "generic.luck",
-            "modifier": {
-                "name": "tieredneo:uncommon_melee_3",
-                "operation": "ADD_VALUE",
-                "amount": -1
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        }
-    ]
+    {
+      "type": "tieredneo:generic.durable",
+      "modifier": {
+        "name": "tieredneo:uncommon_melee_3",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.15
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "generic.luck",
+      "modifier": {
+        "name": "tieredneo:uncommon_melee_3",
+        "operation": "ADD_VALUE",
+        "amount": -1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
 }

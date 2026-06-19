@@ -1,65 +1,65 @@
 {
-    "id": "tieredneo:legendary_armor_3",
-    "verifiers": [
-        {
-            "tag": "minecraft:head_armor"
-        },
-        {
-            "tag": "minecraft:chest_armor"
-        },
-        {
-            "tag": "minecraft:leg_armor"
-        },
-        {
-            "tag": "minecraft:foot_armor"
-        }
-    ],
-    "weight": 3,
-    "style": {
-        "color": "gold"
+  "id": "tieredneo:legendary_armor_3",
+  "verifiers": [
+    {
+      "tag": "minecraft:head_armor"
     },
-    "attributes": [
-        {
-            "type": "generic.armor",
-            "modifier": {
-                "name": "tieredneo:legendary_armor_3",
-                "operation": "ADD_VALUE",
-                "amount": 2
-            },
-            "optional_equipment_slots": [
-                "FEET",
-                "LEGS",
-                "CHEST",
-                "HEAD"
-            ]
-        },
-        {
-            "type": "generic.max_health",
-            "modifier": {
-                "name": "tieredneo:legendary_armor_3",
-                "operation": "ADD_VALUE",
-                "amount": 2
-            },
-            "optional_equipment_slots": [
-                "FEET",
-                "LEGS",
-                "CHEST",
-                "HEAD"
-            ]
-        },
-        {
-            "type": "generic.movement_speed",
-            "modifier": {
-                "name": "tieredneo:legendary_armor_3",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": 0.1
-            },
-            "optional_equipment_slots": [
-                "FEET",
-                "LEGS",
-                "CHEST",
-                "HEAD"
-            ]
-        }
-    ]
+    {
+      "tag": "minecraft:chest_armor"
+    },
+    {
+      "tag": "minecraft:leg_armor"
+    },
+    {
+      "tag": "minecraft:foot_armor"
+    }
+  ],
+  "weight": 3,
+  "style": {
+    "color": "gold"
+  },
+  "attributes": [
+    {
+      "type": "generic.armor",
+      "modifier": {
+        "name": "tieredneo:legendary_armor_3",
+        "operation": "ADD_VALUE",
+        "amount": 2
+      },
+      "optional_equipment_slots": [
+        "FEET",
+        "LEGS",
+        "CHEST",
+        "HEAD"
+      ]
+    },
+    {
+      "type": "generic.max_health",
+      "modifier": {
+        "name": "tieredneo:legendary_armor_3",
+        "operation": "ADD_VALUE",
+        "amount": 2
+      },
+      "optional_equipment_slots": [
+        "FEET",
+        "LEGS",
+        "CHEST",
+        "HEAD"
+      ]
+    },
+    {
+      "type": "generic.movement_speed",
+      "modifier": {
+        "name": "tieredneo:legendary_armor_3",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.1
+      },
+      "optional_equipment_slots": [
+        "FEET",
+        "LEGS",
+        "CHEST",
+        "HEAD"
+      ]
+    }
+  ]
 }

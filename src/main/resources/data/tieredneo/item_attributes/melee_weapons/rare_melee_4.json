@@ -1,47 +1,47 @@
 {
-    "id": "tieredneo:rare_melee_4",
-    "verifiers": [
-        {
-            "tag": "minecraft:swords"
-        }
-    ],
-    "weight": 15,
-    "style": {
-        "color": "blue"
+  "id": "tieredneo:rare_melee_4",
+  "verifiers": [
+    {
+      "tag": "minecraft:swords"
+    }
+  ],
+  "weight": 15,
+  "style": {
+    "color": "blue"
+  },
+  "attributes": [
+    {
+      "type": "generic.attack_damage",
+      "modifier": {
+        "name": "tieredneo:rare_melee_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.05
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
     },
-    "attributes": [
-        {
-            "type": "generic.attack_damage",
-            "modifier": {
-                "name": "tieredneo:rare_melee_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": 0.05
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        },
-        {
-            "type": "tieredneo:generic.durable",
-            "modifier": {
-                "name": "tieredneo:rare_melee_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.1
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        },
-        {
-            "type": "generic.luck",
-            "modifier": {
-                "name": "tieredneo:rare_melee_4",
-                "operation": "ADD_VALUE",
-                "amount": -1
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        }
-    ]
+    {
+      "type": "tieredneo:generic.durable",
+      "modifier": {
+        "name": "tieredneo:rare_melee_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "generic.luck",
+      "modifier": {
+        "name": "tieredneo:rare_melee_4",
+        "operation": "ADD_VALUE",
+        "amount": -1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
 }

@@ -1,56 +1,56 @@
 {
-    "id": "tieredneo:unique_tool_4",
-    "verifiers": [
-        {
-            "tag": "minecraft:axes"
-        },
-        {
-            "tag": "minecraft:pickaxes"
-        },
-        {
-            "tag": "minecraft:shovels"
-        },
-        {
-            "tag": "minecraft:hoes"
-        }
-    ],
-    "weight": 0,
-    "style": {
-        "color": "light_purple"
+  "id": "tieredneo:unique_tool_4",
+  "verifiers": [
+    {
+      "tag": "minecraft:axes"
     },
-    "attributes": [
-        {
-            "type": "tieredneo:generic.durable",
-            "modifier": {
-                "name": "tieredneo:unique_tool_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": 0.5
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        },
-        {
-            "type": "tieredneo:generic.dig_speed",
-            "modifier": {
-                "name": "tieredneo:unique_tool_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": 0.3
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        },
-        {
-            "type": "generic.movement_speed",
-            "modifier": {
-                "name": "tieredneo:unique_tool_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": 0.1
-            },
-            "optional_equipment_slots": [
-                "MAINHAND"
-            ]
-        }
-    ]
+    {
+      "tag": "minecraft:pickaxes"
+    },
+    {
+      "tag": "minecraft:shovels"
+    },
+    {
+      "tag": "minecraft:hoes"
+    }
+  ],
+  "weight": 0,
+  "style": {
+    "color": "light_purple"
+  },
+  "attributes": [
+    {
+      "type": "tieredneo:generic.durable",
+      "modifier": {
+        "name": "tieredneo:unique_tool_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.5
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "tieredneo:generic.dig_speed",
+      "modifier": {
+        "name": "tieredneo:unique_tool_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.3
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    },
+    {
+      "type": "generic.movement_speed",
+      "modifier": {
+        "name": "tieredneo:unique_tool_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": 0.1
+      },
+      "optional_equipment_slots": [
+        "MAINHAND"
+      ]
+    }
+  ]
 }

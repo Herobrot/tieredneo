@@ -5,7 +5,6 @@ import com.herobrot.tieredneo.api.ModifierUtils;
 import com.herobrot.tieredneo.api.TieredItemTags;
 import com.herobrot.tieredneo.config.ConfigInit;
 import com.herobrot.tieredneo.network.payload.ReforgeRequestPayload;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ReforgeScreen extends AbstractContainerScreen<ReforgeMenu> {
-
     public static final ResourceLocation TEXTURE = TieredNeo.rl("textures/gui/reforging_screen.png");
     public ReforgeButton reforgeButton;
     private ItemStack last;
@@ -76,9 +74,7 @@ public class ReforgeScreen extends AbstractContainerScreen<ReforgeMenu> {
                             baseItems.add(stack.getItem());
                         }
                     } else {
-                        BuiltInRegistries.ITEM.getTag(TieredItemTags.REFORGE_BASE_ITEM).ifPresent(tag ->
-                                tag.forEach(holder -> baseItems.add(holder.value()))
-                        );
+                        BuiltInRegistries.ITEM.getTag(TieredItemTags.REFORGE_BASE_ITEM).ifPresent(tag -> tag.forEach(holder -> baseItems.add(holder.value())));
                     }
                 }
             }
@@ -123,7 +119,7 @@ public class ReforgeScreen extends AbstractContainerScreen<ReforgeMenu> {
 
         public ReforgeButton(int x, int y, Consumer<AbstractButton> onPress) {
             super(x, y, 18, 18, Component.empty());
-            this.active = false; // Inicia apagado.
+            this.active = false;
             this.onPress = () -> onPress.accept(this);
         }
 
@@ -132,7 +128,7 @@ public class ReforgeScreen extends AbstractContainerScreen<ReforgeMenu> {
             int j = 176;
             if (!this.active) {
                 j += this.width * 2;
-            } else if (this.isHovered()) { // Solo iluminar si el ratón está encima
+            } else if (this.isHovered()) {
                 j += this.width;
             }
             graphics.blit(TEXTURE, this.getX(), this.getY(), j, 0, this.width, this.height);

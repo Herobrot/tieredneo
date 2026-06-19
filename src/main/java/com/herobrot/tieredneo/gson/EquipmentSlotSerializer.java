@@ -8,14 +8,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 
 import java.lang.reflect.Type;
 
-/**
- * Serializes EquipmentSlot to its uppercase name string.
- * Mirrors what EquipmentSlotDeserializer accepts after toLowerCase().
- */
 public class EquipmentSlotSerializer implements JsonSerializer<EquipmentSlot> {
-
     @Override
     public JsonElement serialize(EquipmentSlot src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(src.name()); // "MAINHAND", "CHEST", "BODY", etc.
+        return new JsonPrimitive(src.name());
     }
 }

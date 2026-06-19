@@ -4,7 +4,6 @@ import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.api.CustomEntityAttributes;
 import com.herobrot.tieredneo.api.ModifierUtils;
 import com.herobrot.tieredneo.config.ConfigInit;
-
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -19,11 +18,6 @@ import net.neoforged.neoforge.event.entity.player.TradeWithVillagerEvent;
 
 @EventBusSubscriber(modid = TieredNeo.MODID)
 public class TieredGameplayEvents {
-
-    // -------------------------------------------------------------------------
-    // Asignación de Tiers
-    // -------------------------------------------------------------------------
-
     @SubscribeEvent
     @SuppressWarnings("resource")
     public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
@@ -47,14 +41,10 @@ public class TieredGameplayEvents {
     @SubscribeEvent
     public static void onVillagerTrade(TradeWithVillagerEvent event) {
         if (ConfigInit.CONFIG.merchantModifier) {
-            // Se le asigna el tier al ítem que el jugador está a punto de comprar
+
             ModifierUtils.setItemStackAttribute(event.getEntity(), event.getMerchantOffer().getResult(), false);
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Lectura de Atributos Personalizados
-    // -------------------------------------------------------------------------
 
     @SubscribeEvent
     public static void onBreakSpeed(PlayerEvent.BreakSpeed event) {
@@ -62,7 +52,7 @@ public class TieredGameplayEvents {
         double digSpeedBonus = player.getAttributeValue(CustomEntityAttributes.DIG_SPEED);
 
         if (digSpeedBonus > 0) {
-            // Sumamos el bono de velocidad de minado al cálculo original
+
             event.setNewSpeed((float) (event.getNewSpeed() + digSpeedBonus));
         }
     }

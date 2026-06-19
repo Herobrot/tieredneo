@@ -1,53 +1,53 @@
 {
-    "id": "tieredneo:common_ranged_4",
-    "verifiers": [
-        {
-            "tag": "minecraft:enchantable/bow"
-        },
-        {
-            "tag": "minecraft:enchantable/crossbow"
-        }
-    ],
-    "weight": 50,
-    "style": {
-        "color": "gray"
+  "id": "tieredneo:common_ranged_4",
+  "verifiers": [
+    {
+      "tag": "minecraft:enchantable/bow"
     },
-    "attributes": [
-        {
-            "type": "tieredneo:generic.range_attack_damage",
-            "modifier": {
-                "name": "tieredneo:common_ranged_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.3
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        },
-        {
-            "type": "tieredneo:generic.durable",
-            "modifier": {
-                "name": "tieredneo:common_ranged_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.3
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        },
-        {
-            "type": "generic.movement_speed",
-            "modifier": {
-                "name": "tieredneo:common_ranged_4",
-                "operation": "ADD_MULTIPLIED_TOTAL",
-                "amount": -0.2
-            },
-            "optional_equipment_slots": [
-                "MAINHAND",
-                "OFFHAND"
-            ]
-        }
-    ]
+    {
+      "tag": "minecraft:enchantable/crossbow"
+    }
+  ],
+  "weight": 50,
+  "style": {
+    "color": "gray"
+  },
+  "attributes": [
+    {
+      "type": "tieredneo:generic.range_attack_damage",
+      "modifier": {
+        "name": "tieredneo:common_ranged_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.3
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
+    },
+    {
+      "type": "tieredneo:generic.durable",
+      "modifier": {
+        "name": "tieredneo:common_ranged_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.3
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
+    },
+    {
+      "type": "generic.movement_speed",
+      "modifier": {
+        "name": "tieredneo:common_ranged_4",
+        "operation": "ADD_MULTIPLIED_TOTAL",
+        "amount": -0.2
+      },
+      "optional_equipment_slots": [
+        "MAINHAND",
+        "OFFHAND"
+      ]
+    }
+  ]
 }
