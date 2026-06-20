@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MenuShiftClickMixin {
 
     @Inject(method = "quickMoveStack", at = @At("HEAD"))
-    @SuppressWarnings("resource")
+    @SuppressWarnings({"resource", "PatternVariableCanNeverMatch", "ConstantConditions"})
     private void onQuickMoveStack(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
         if (player.level().isClientSide) return;
 
