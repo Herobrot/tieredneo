@@ -166,7 +166,7 @@ githubRelease {
     owner = "Herobrot"
     repo = "TieredNeo"
     tagName = "${project.version}+${minecraft_version}"
-    targetCommitish = "main"
+    targetCommitish = "1.21"
     releaseName = "TieredNeo ${project.version}+${minecraft_version}"
     body = getChangelogText()
     releaseAssets(jar)
