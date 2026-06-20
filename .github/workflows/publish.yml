@@ -8,6 +8,10 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -29,4 +33,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_SECRET }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_SECRET }}
-        run: ./gradlew publishMod -Prelease_type=release
+        run: ./gradlew publishMod -Prelease_type=release --no-configuration-cache
