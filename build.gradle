@@ -3,6 +3,9 @@ plugins {
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.141'
     id 'idea'
+    id "com.modrinth.minotaur" version "2.8.7"
+    id "net.darkhax.curseforgegradle" version "1.1.25"
+    id "com.github.breadmoirai.github-release" version "2.4.1"
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -141,4 +144,75 @@ idea {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+def getChangelogText() {
+    def changelogFile = file('CHANGELOG.md')
+    if (!changelogFile.exists()) {
+        return "No changelog found."
+    }
+
+    def text = changelogFile.text
+    def matcher = text =~ /(?s)^(# .*?\n)(.*?)(?=\n# |\n---|\Z)/
+
+    if (matcher.find()) {
+        return matcher.group(2).trim()
+    }
+    return text.trim()
+}
+
+githubRelease {
+    token = System.getenv("GITHUB_TOKEN") ?: ""
+    owner = "Herobrot"
+    repo = "TieredNeo"
+    tagName = "${project.version}+${minecraft_version}"
+    targetCommitish = "main"
+    releaseName = "TieredNeo ${project.version}+${minecraft_version}"
+    body = getChangelogText()
+    releaseAssets(jar)
+}
+
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN") ?: "")
+    projectId.set("tieredneo")
+    versionNumber.set("${project.version}+${minecraft_version}")
+    versionName.set("Hero's Tiered ${project.version}")
+    versionType.set("release")
+    gameVersions.set(["1.21.1"])
+    loaders.set(["neoforge"])
+    changelog.set(getChangelogText())
+    uploadFile.set(tasks.named("jar"))
+
+    dependencies {
+        required.project("cloth-config")
+    }
+}
+
+tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    dependsOn tasks.named("jar")
+    group = 'publishing'
+    apiToken = System.getenv('CURSEFORGE_TOKEN') ?: "0"
+
+    def uploadFile = upload("heros-tiered", jar.archiveFile.get().asFile)
+
+    uploadFile.displayName = "Hero's Tiered"
+    uploadFile.changelog = getChangelogText()
+    uploadFile.changelogType = 'markdown'
+    uploadFile.addModLoader('NeoForge')
+    uploadFile.addGameVersion('1.21.1')
+    uploadFile.addGameVersion('Client', 'Server')
+    uploadFile.addJavaVersion('Java 21')
+    uploadFile.releaseType = 'release'
+
+    uploadFile.addRequirement('cloth-config')
+}
+
+tasks.register("publishMod") {
+    group = "publishing"
+    description = "Construye el mod y lo distribuye de forma automatizada."
+    dependsOn build
+
+    if (System.getenv("GITHUB_TOKEN") != null) finalizedBy tasks.named("githubRelease")
+    if (System.getenv("CURSEFORGE_TOKEN") != null) finalizedBy tasks.named("curseforge")
+    if (System.getenv("MODRINTH_TOKEN") != null) finalizedBy tasks.named("modrinth")
 }
