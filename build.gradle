@@ -197,7 +197,7 @@ tasks.register('curseforge', TaskPublishCurseForge) {
 
     def uploadFile = upload("1581382", jar.archiveFile.get().asFile)
 
-    uploadFile.changelog = getChangelogText()
+    uploadFile.changelog = getChangelogText().replaceAll('\r\n', '\n').replaceAll('\n', '\r\n')
     uploadFile.changelogType = 'markdown'
     uploadFile.addModLoader('NeoForge')
     uploadFile.addGameVersion('1.21.1')
