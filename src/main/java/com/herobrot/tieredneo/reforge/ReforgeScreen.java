@@ -111,7 +111,16 @@ public class ReforgeScreen extends AbstractContainerScreen<ReforgeMenu> {
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
+
         graphics.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
+
+        if (this.menu.getSlot(0).hasItem()) {
+            graphics.blit(TEXTURE, i + this.menu.getSlot(0).x, j + this.menu.getSlot(0).y, 8, 84, 16, 16);
+        }
+
+        if (this.menu.getSlot(2).hasItem()) {
+            graphics.blit(TEXTURE, i + this.menu.getSlot(2).x, j + this.menu.getSlot(2).y, 8, 84, 16, 16);
+        }
     }
 
     public static class ReforgeButton extends AbstractButton {
