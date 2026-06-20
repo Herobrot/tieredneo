@@ -1,3 +1,5 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
     id 'java-library'
     id 'maven-publish'
@@ -169,7 +171,7 @@ githubRelease {
     targetCommitish = "1.21"
     releaseName = "TieredNeo ${project.version}+${minecraft_version}"
     body = getChangelogText()
-    releaseAssets(jar)
+    releaseAssets(tasks.named("jar"), tasks.named("sourcesJar"))
 }
 
 modrinth {
@@ -188,14 +190,13 @@ modrinth {
     }
 }
 
-tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+tasks.register('curseforge', TaskPublishCurseForge) {
     dependsOn tasks.named("jar")
     group = 'publishing'
     apiToken = System.getenv('CURSEFORGE_TOKEN') ?: "0"
 
     def uploadFile = upload("1581382", jar.archiveFile.get().asFile)
 
-    uploadFile.displayName = "Hero's Tiered"
     uploadFile.changelog = getChangelogText()
     uploadFile.changelogType = 'markdown'
     uploadFile.addModLoader('NeoForge')
