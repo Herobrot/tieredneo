@@ -2,7 +2,7 @@
   "id": "tieredneo:rare_shield_4",
   "verifiers": [
     {
-      "tag": "c:tools/shields"
+      "id": "minecraft:shield"
     }
   ],
   "weight": 15,

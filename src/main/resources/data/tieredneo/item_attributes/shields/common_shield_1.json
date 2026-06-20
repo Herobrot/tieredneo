@@ -2,7 +2,7 @@
   "id": "tieredneo:common_shield_1",
   "verifiers": [
     {
-      "tag": "c:tools/shields"
+      "id": "minecraft:shield"
     }
   ],
   "weight": 50,

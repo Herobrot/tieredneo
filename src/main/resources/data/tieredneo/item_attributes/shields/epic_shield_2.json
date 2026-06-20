@@ -2,7 +2,7 @@
   "id": "tieredneo:epic_shield_2",
   "verifiers": [
     {
-      "tag": "c:tools/shields"
+      "id": "minecraft:shield"
     }
   ],
   "weight": 8,
