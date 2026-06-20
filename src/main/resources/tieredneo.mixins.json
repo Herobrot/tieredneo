@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "LootTableMixin",
-    "MenuShiftClickMixin"
+    "MenuShiftClickMixin",
+    "MerchantResultSlotMixin"
   ],
   "client": [
     "MouseHandlerAccessor"
