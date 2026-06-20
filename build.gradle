@@ -193,7 +193,7 @@ tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge)
     group = 'publishing'
     apiToken = System.getenv('CURSEFORGE_TOKEN') ?: "0"
 
-    def uploadFile = upload("heros-tiered", jar.archiveFile.get().asFile)
+    def uploadFile = upload("1581382", jar.archiveFile.get().asFile)
 
     uploadFile.displayName = "Hero's Tiered"
     uploadFile.changelog = getChangelogText()
