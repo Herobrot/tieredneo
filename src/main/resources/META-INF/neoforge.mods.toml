@@ -1,11 +1,11 @@
 modLoader = "javafml"
-loaderVersion = "[1,)"
-license = "MIT License"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
 
 [[mods]]
-modId = "tieredneo"
-version = "1.0.0"
-displayName = "Hero's Tiered"
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
 credits = "Globox, Draylar"
 authors = "Herobrot"
 description = '''
@@ -15,23 +15,23 @@ logoFile = "assets/tieredneo/icon.png"
 logoBlur = false
 
 [[mixins]]
-config = "tieredneo.mixins.json"
+config = "${mod_id}.mixins.json"
 
-[[dependencies.tieredneo]]
+[[dependencies."${mod_id}"]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0,)"
+versionRange = "[${neo_version},)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.tieredneo]]
+[[dependencies."${mod_id}"]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.tieredneo]]
+[[dependencies."${mod_id}"]]
 modId = "cloth_config"
 type = "required"
 versionRange = "[15.0.0,)"

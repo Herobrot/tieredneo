@@ -33,4 +33,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_SECRET }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_SECRET }}
-        run: ./gradlew publishMod -Prelease_type=release --no-configuration-cache
+        run: ./gradlew publishMods -Prelease_type=release --no-configuration-cache

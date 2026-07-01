@@ -1,17 +1,12 @@
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
-
 plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.141'
     id 'idea'
-    id "com.modrinth.minotaur" version "2.8.7"
-    id "net.darkhax.curseforgegradle" version "1.1.25"
-    id "com.github.breadmoirai.github-release" version "2.4.1"
+    id "me.modmuss50.mod-publish-plugin" version "2.1.1"
 }
 
 tasks.named('wrapper', Wrapper).configure {
-
     distributionType = Wrapper.DistributionType.BIN
 }
 
@@ -20,7 +15,6 @@ group = mod_group_id
 
 sourceSets.main.resources {
     srcDir('src/generated/resources')
-
     exclude("**/*.bbmodel")
     exclude("src/generated/**/.cache")
 }
@@ -38,7 +32,6 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
-
     version = project.neo_version
 
     parchment {
@@ -55,7 +48,6 @@ neoForge {
     runs {
         client {
             client()
-
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
@@ -72,20 +64,16 @@ neoForge {
 
         data {
             data()
-
             programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
 
         configureEach {
-
             systemProperty 'forge.logging.markers', 'REGISTRIES'
-
             logLevel = org.slf4j.event.Level.DEBUG
         }
     }
 
     mods {
-
         "${mod_id}" {
             sourceSet(sourceSets.main)
         }
@@ -98,12 +86,11 @@ configurations {
 
 dependencies {
     implementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
-
     compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
     runtimeOnly "dev.emi:emi-neoforge:${emi_version}"
 }
 
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+tasks.named('processResources', ProcessResources) {
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
@@ -112,17 +99,13 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
-            mod_version            : mod_version,
+            mod_version            : mod_version
     ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
+    inputs.properties(replaceProperties)
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand(replaceProperties)
+    }
 }
-
-sourceSets.main.resources.srcDir generateModMetadata
-
-neoForge.ideSyncTask generateModMetadata
 
 publishing {
     publications {
@@ -132,7 +115,7 @@ publishing {
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/repo"
+            url = "file://${project.projectDir}/repo"
         }
     }
 }
@@ -153,7 +136,6 @@ def getChangelogText() {
     if (!changelogFile.exists()) {
         return "No changelog found."
     }
-
     def text = changelogFile.text
     def matcher = text =~ /(?s)^(# .*?\n)(.*?)(?=\n# |\n---|\Z)/
 
@@ -163,57 +145,35 @@ def getChangelogText() {
     return text.trim()
 }
 
-githubRelease {
-    token = System.getenv("GITHUB_TOKEN") ?: ""
-    owner = "Herobrot"
-    repo = "TieredNeo"
-    tagName = "${project.version}+${minecraft_version}"
-    targetCommitish = "1.21"
-    releaseName = "TieredNeo ${project.version}+${minecraft_version}"
-    body = getChangelogText()
-    releaseAssets(tasks.named("jar"), tasks.named("sourcesJar"))
-}
+publishMods {
+    file = jar.archiveFile
+    changelog = getChangelogText()
+    type = STABLE
+    modLoaders.add("neoforge")
 
-modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN") ?: "")
-    projectId.set("tieredneo")
-    versionNumber.set("${project.version}+${minecraft_version}")
-    versionName.set("Hero's Tiered ${project.version}")
-    versionType.set("release")
-    gameVersions.set(["1.21.1"])
-    loaders.set(["neoforge"])
-    changelog.set(getChangelogText())
-    uploadFile.set(tasks.named("jar"))
-
-    dependencies {
-        required.project("cloth-config")
+    curseforge {
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        projectId = curseforge_id
+        minecraftVersions.add(minecraft_version)
+        javaVersions.add(JavaVersion.VERSION_21)
+        client = true
+        server = true
+        requires("cloth-config")
+        changelogType = "markdown"
     }
-}
 
-tasks.register('curseforge', TaskPublishCurseForge) {
-    dependsOn tasks.named("jar")
-    group = 'publishing'
-    apiToken = System.getenv('CURSEFORGE_TOKEN') ?: "0"
+    modrinth {
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        projectId = modrinth_id
+        minecraftVersions.add(minecraft_version)
+        requires("cloth-config")
+        environment = CLIENT_AND_SERVER
+    }
 
-    def uploadFile = upload("1581382", jar.archiveFile.get().asFile)
-
-    uploadFile.changelog = getChangelogText().replaceAll('\r\n', '\n').replaceAll('\n', '\r\n')
-    uploadFile.changelogType = 'markdown'
-    uploadFile.addModLoader('NeoForge')
-    uploadFile.addGameVersion('1.21.1')
-    uploadFile.addGameVersion('Client', 'Server')
-    uploadFile.addJavaVersion('Java 21')
-    uploadFile.releaseType = 'release'
-
-    uploadFile.addRequirement('cloth-config')
-}
-
-tasks.register("publishMod") {
-    group = "publishing"
-    description = "Construye el mod y lo distribuye de forma automatizada."
-    dependsOn build
-
-    if (System.getenv("GITHUB_TOKEN") != null) finalizedBy tasks.named("githubRelease")
-    if (System.getenv("CURSEFORGE_TOKEN") != null) finalizedBy tasks.named("curseforge")
-    if (System.getenv("MODRINTH_TOKEN") != null) finalizedBy tasks.named("modrinth")
+    github {
+        accessToken = providers.environmentVariable("GITHUB_TOKEN")
+        repository = "Herobrot/${mod_id}"
+        commitish = "1.21"
+        additionalFiles.from(tasks.named("sourcesJar"))
+    }
 }

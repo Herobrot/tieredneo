@@ -2,7 +2,7 @@ name: Feature Request
 description: Suggest a new feature or enhancement for the mod
 title: "[FEATURE] "
 labels: ["enhancement"]
-assignees: []
+assignees: ["Herobrot"]
 
 body:
   - type: checkboxes
