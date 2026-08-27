@@ -11,6 +11,8 @@
   "text.autoconfig.tieredneo.option.merchantModifier.@Tooltip": "Merchant items get modifiers",
   "text.autoconfig.tieredneo.option.reforgeModifier": "Reforge Modifier",
   "text.autoconfig.tieredneo.option.reforgeModifier.@Tooltip": "Decreases the biggest weights by this modifier",
+  "text.autoconfig.tieredneo.option.herosLevelsReforgeModifier": "Hero's Levels Reforge Modifier",
+  "text.autoconfig.tieredneo.option.herosLevelsReforgeModifier.@Tooltip": "Modify the biggest weights by this modifier per smithing level\nIMPORTANT: Make sure there's a smithing skill in your datapack in Hero's Levels",
   "text.autoconfig.tieredneo.option.luckReforgeModifier": "Luck Reforge Modifier",
   "text.autoconfig.tieredneo.option.luckReforgeModifier.@Tooltip": "Modify the biggest weights by this modifier per luck",
   "text.autoconfig.tieredneo.option.uniqueReforge": "Unique Reforge",
