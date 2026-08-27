@@ -1,12 +1,16 @@
 package com.herobrot.tieredneo.api;
 
+import com.herobrot.heroslevels.api.HerosLevelsAPI;
+import com.herobrot.heroslevels.level.LevelManager;
+import com.herobrot.heroslevels.level.Skill;
 import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.init.ConfigInit;
-import com.herobrot.tieredneo.util.WeightedList;
 import com.herobrot.tieredneo.init.RegistrationInit;
+import com.herobrot.tieredneo.util.WeightedList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -27,20 +31,35 @@ public final class ModifierUtils {
     public static ResourceLocation getRandomAttributeIDFor(@Nullable Player player, Item item, boolean reforge) {
         WeightedList<ResourceLocation> weighted = getResourceLocationWeightedList(item, reforge);
         if (weighted.isEmpty()) return null;
-        if (reforge && weighted.size() > 2) {
-            List<WeightedList.Entry<ResourceLocation>> sorted = weighted.sortedAscending();
-            List<WeightedList.Entry<ResourceLocation>> dampened = getEntries(sorted, ConfigInit.CONFIG.reforgeModifier, 2, 0f);
-            return WeightedList.fromEntries(dampened).draw();
+        List<WeightedList.Entry<ResourceLocation>> currentWeights = weighted.sortedAscending();
+        boolean appliedModifier = false;
+        if (reforge && currentWeights.size() > 2) {
+            currentWeights = getEntries(currentWeights, ConfigInit.CONFIG.reforgeModifier, 2, 0f);
+            appliedModifier = true;
         }
         if (player != null) {
             float luck = player.getLuck();
             if (luck != 0f) {
-                List<WeightedList.Entry<ResourceLocation>> sorted = weighted.sortedAscending();
-                List<WeightedList.Entry<ResourceLocation>> dampened = getEntries(sorted, ConfigInit.CONFIG.luckReforgeModifier, 3, luck);
-                return WeightedList.fromEntries(dampened).draw();
+                currentWeights = getEntries(currentWeights, ConfigInit.CONFIG.luckReforgeModifier, 3, luck);
+                appliedModifier = true;
+            }
+            if (TieredNeo.isHerosLevelsLoaded && player instanceof ServerPlayer serverPlayer) {
+                int smithingLevel = getSmithingLevel(serverPlayer);
+                if (smithingLevel > 0) {
+                    currentWeights = getEntries(currentWeights, ConfigInit.CONFIG.herosLevelsReforgeModifier, 3, smithingLevel);
+                    appliedModifier = true;
+                }
             }
         }
+        if (appliedModifier) return WeightedList.fromEntries(currentWeights).draw();
         return weighted.draw();
+    }
+
+    private static int getSmithingLevel(ServerPlayer player) {
+        for (Skill skill : LevelManager.SKILLS.values())
+            if (skill.key().equals("smithing"))
+                return HerosLevelsAPI.getSkillLevel(player, skill.id());
+        return 0;
     }
 
     private static @NotNull WeightedList<ResourceLocation> getResourceLocationWeightedList(Item item, boolean reforge) {
@@ -55,12 +74,12 @@ public final class ModifierUtils {
         return weighted;
     }
 
-    private static @NotNull List<WeightedList.Entry<ResourceLocation>> getEntries(List<WeightedList.Entry<ResourceLocation>> sorted, float modifier, int divisor, float luck) {
+    private static @NotNull List<WeightedList.Entry<ResourceLocation>> getEntries(List<WeightedList.Entry<ResourceLocation>> sorted, float modifier, int divisor, float dynamicLevel) {
         int maxWeight = sorted.getLast().weight();
         List<WeightedList.Entry<ResourceLocation>> dampened = new ArrayList<>();
         for (WeightedList.Entry<ResourceLocation> entry : sorted) {
             if (entry.weight() > maxWeight / divisor) {
-                float finalModifier = luck > 0 ? (1.0f - modifier * luck) : modifier;
+                float finalModifier = dynamicLevel > 0 ? (1.0f - modifier * dynamicLevel) : modifier;
                 dampened.add(entry.withWeight((int) (entry.weight() * finalModifier)));
             } else dampened.add(entry);
         }

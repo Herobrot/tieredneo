@@ -46,6 +46,13 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
+modId = "heroslevels"
+type = "optional"
+versionRange = "[1.0.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
 modId = "easyanvils"
 type = "optional"
 versionRange = "[21.1.0,)"
