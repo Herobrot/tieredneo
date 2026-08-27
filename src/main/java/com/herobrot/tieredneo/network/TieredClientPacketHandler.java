@@ -11,13 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public class TieredClientPacketHandler {
-    public static void init() {
-
-    }
 
     public static void handleHealthSync(HealthSyncPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
@@ -29,9 +26,8 @@ public class TieredClientPacketHandler {
 
     public static void handleReforgeReady(ReforgeReadyPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
-            if (Minecraft.getInstance().screen instanceof ReforgeScreen screen && screen.reforgeButton != null) {
+            if (Minecraft.getInstance().screen instanceof ReforgeScreen screen && screen.reforgeButton != null)
                 screen.reforgeButton.active = !payload.disableButton();
-            }
         });
     }
 
@@ -41,28 +37,21 @@ public class TieredClientPacketHandler {
 
     public static void handleAttributeSync(AttributeSyncPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
-
-            TieredNeoClient.CACHED_ATTRIBUTES.clear();
-            TieredNeoClient.CACHED_ATTRIBUTES.putAll(TieredNeo.ATTRIBUTE_DATA_LOADER.getItemAttributes());
-
             Map<ResourceLocation, PotentialAttribute> incoming = new HashMap<>();
             List<ResourceLocation> ids = payload.ids();
             List<String> jsons = payload.jsons();
-
             for (int i = 0; i < ids.size(); i++) {
                 try {
                     PotentialAttribute attr = AttributeDataLoader.GSON.fromJson(jsons.get(i), PotentialAttribute.class);
-                    if (attr != null) {
-                        incoming.put(ids.get(i), attr);
-                    }
+                    if (attr != null) incoming.put(ids.get(i), attr);
                 } catch (Exception e) {
-                    TieredNeo.LOGGER.error("[TieredNeo] Client failed to deserialize attribute '{}': {}", ids.get(i),
-                            e.getMessage());
+                    TieredNeo.LOGGER.error("[TieredNeo]: Client failed to deserialize attribute '{}': {}", ids.get(i), e);
                 }
             }
-
             TieredNeo.ATTRIBUTE_DATA_LOADER.applyClientSync(incoming);
-            TieredNeo.LOGGER.debug("[TieredNeo] Client received {} attributes from server.", incoming.size());
+            TieredNeoClient.CACHED_ATTRIBUTES.clear();
+            TieredNeoClient.CACHED_ATTRIBUTES.putAll(incoming);
+            TieredNeo.LOGGER.debug("[TieredNeo]: Client received {} attributes from server.", incoming.size());
         });
     }
 }

@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import org.jetbrains.annotations.NotNull;
 
 public record ReforgeReadyPayload(boolean disableButton) implements CustomPacketPayload {
     public static final Type<ReforgeReadyPayload> TYPE = new Type<>(TieredNeo.rl("reforge_ready"));
@@ -12,5 +13,5 @@ public record ReforgeReadyPayload(boolean disableButton) implements CustomPacket
             StreamCodec.composite(ByteBufCodecs.BOOL, ReforgeReadyPayload::disableButton, ReforgeReadyPayload::new);
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {return TYPE;}
+    public @NotNull Type<? extends CustomPacketPayload> type() {return TYPE;}
 }

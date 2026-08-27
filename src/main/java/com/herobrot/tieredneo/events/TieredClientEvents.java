@@ -12,6 +12,6 @@ public class TieredClientEvents {
     @SubscribeEvent
     public static void onPlayerLoggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
         TieredNeoClient.CACHED_ATTRIBUTES.clear();
-        TieredNeo.LOGGER.debug("[TieredNeo] Server-synced client attributes cleared on logout.");
+        TieredNeo.LOGGER.debug("[TieredNeo]: Server-synced client attributes cleared on logout.");
     }
 }

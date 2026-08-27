@@ -14,8 +14,12 @@ public record BorderTemplate(int index, String texture, ResourceLocation identif
     }
 
     public boolean containsDecider(String tierId) {
-        String pathOnly = tierId.contains(":") ? tierId.split(":")[1] : tierId;
-
-        return this.decider.contains(tierId) || this.decider.contains(pathOnly);
+        if (this.decider.contains(tierId)) return true;
+        int colonIndex = tierId.indexOf(':');
+        if (colonIndex != -1) {
+            String pathOnly = tierId.substring(colonIndex + 1);
+            return this.decider.contains(pathOnly);
+        }
+        return false;
     }
 }

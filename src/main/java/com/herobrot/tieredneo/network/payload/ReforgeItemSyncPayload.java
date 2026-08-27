@@ -8,6 +8,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public record ReforgeItemSyncPayload(Map<Item, List<Item>> reforgeMap) implement
                     ReforgeItemSyncPayload::reforgeMap, ReforgeItemSyncPayload::new);
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {return TYPE;}
+    public @NotNull Type<? extends CustomPacketPayload> type() {return TYPE;}
 
     public static ReforgeItemSyncPayload fromLoader(ReforgeDataLoader loader) {
         return new ReforgeItemSyncPayload(loader.getRawMap());

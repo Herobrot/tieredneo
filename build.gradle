@@ -10,7 +10,7 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = mod_version
+version = "${mod_version}+${minecraft_version}"
 group = mod_group_id
 
 sourceSets.main.resources {
@@ -23,6 +23,9 @@ repositories {
     maven { url = "https://maven.shedaniel.me/" }
     maven { url = "https://maven.terraformersmc.com/" }
     mavenCentral()
+    flatDir(
+            dirs: 'libs'
+    )
 }
 
 base {
@@ -68,8 +71,8 @@ neoForge {
         }
 
         configureEach {
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
             logLevel = org.slf4j.event.Level.DEBUG
+            systemProperty 'neoforge.logging.markers', 'REGISTRIES'
         }
     }
 
@@ -86,6 +89,7 @@ configurations {
 
 dependencies {
     implementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
+    implementation("com.herobrot.heroslib:heroslib:${heroslib_version}")
     compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
     runtimeOnly "dev.emi:emi-neoforge:${emi_version}"
 }
@@ -160,6 +164,7 @@ publishMods {
         server = true
         requires("cloth-config")
         changelogType = "markdown"
+        displayName = jar.archiveFileName.get()
     }
 
     modrinth {
@@ -168,11 +173,14 @@ publishMods {
         minecraftVersions.add(minecraft_version)
         requires("cloth-config")
         environment = CLIENT_AND_SERVER
+        version = "${mod_version}+${minecraft_version}"
     }
 
     github {
         accessToken = providers.environmentVariable("GITHUB_TOKEN")
         repository = "Herobrot/${mod_id}"
+        tagName="${mod_version}+${minecraft_version}"
+        displayName = "${mod_name} ${mod_version}+${minecraft_version}"
         commitish = "1.21"
         additionalFiles.from(tasks.named("sourcesJar"))
     }

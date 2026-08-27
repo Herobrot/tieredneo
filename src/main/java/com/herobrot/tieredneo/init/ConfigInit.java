@@ -1,5 +1,6 @@
-package com.herobrot.tieredneo.config;
+package com.herobrot.tieredneo.init;
 
+import com.herobrot.tieredneo.config.TieredConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 

@@ -9,37 +9,28 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 
 import java.lang.reflect.Type;
+import java.util.Map;
 
 public class StyleDeserializer implements JsonDeserializer<Style> {
     @Override
     public Style deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         Style style = Style.EMPTY;
-
-        if (jsonObject.has("color")) {
-            String colorStr = jsonObject.get("color").getAsString();
-            TextColor textColor = TextColor.parseColor(colorStr).result().orElse(null);
-            if (textColor != null) {
-                style = style.withColor(textColor);
+        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+            String key = entry.getKey();
+            JsonElement value = entry.getValue();
+            switch (key) {
+                case "color" -> {
+                    TextColor textColor = TextColor.parseColor(value.getAsString()).result().orElse(null);
+                    if (textColor != null) style = style.withColor(textColor);
+                }
+                case "bold" -> style = style.withBold(value.getAsBoolean());
+                case "italic" -> style = style.withItalic(value.getAsBoolean());
+                case "underlined" -> style = style.withUnderlined(value.getAsBoolean());
+                case "strikethrough" -> style = style.withStrikethrough(value.getAsBoolean());
+                case "obfuscated" -> style = style.withObfuscated(value.getAsBoolean());
             }
         }
-
-        if (jsonObject.has("bold")) {
-            style = style.withBold(jsonObject.get("bold").getAsBoolean());
-        }
-        if (jsonObject.has("italic")) {
-            style = style.withItalic(jsonObject.get("italic").getAsBoolean());
-        }
-        if (jsonObject.has("underlined")) {
-            style = style.withUnderlined(jsonObject.get("underlined").getAsBoolean());
-        }
-        if (jsonObject.has("strikethrough")) {
-            style = style.withStrikethrough(jsonObject.get("strikethrough").getAsBoolean());
-        }
-        if (jsonObject.has("obfuscated")) {
-            style = style.withObfuscated(jsonObject.get("obfuscated").getAsBoolean());
-        }
-
         return style;
     }
 }

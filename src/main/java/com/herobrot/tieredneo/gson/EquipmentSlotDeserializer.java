@@ -11,9 +11,7 @@ import java.lang.reflect.Type;
 public class EquipmentSlotDeserializer implements JsonDeserializer<EquipmentSlot> {
     @Override
     public EquipmentSlot deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-
         String slotName = json.getAsString().toLowerCase();
-
         return switch (slotName) {
             case "mainhand" -> EquipmentSlot.MAINHAND;
             case "offhand" -> EquipmentSlot.OFFHAND;
@@ -23,8 +21,8 @@ public class EquipmentSlotDeserializer implements JsonDeserializer<EquipmentSlot
             case "head" -> EquipmentSlot.HEAD;
             case "body" -> EquipmentSlot.BODY;
             default ->
-                    throw new JsonParseException("[TieredNeo] EquipmentSlot desconocido: '" + slotName + "'. Valores "
-                            + "válidos: MAINHAND, OFFHAND, FEET, LEGS, CHEST, HEAD, BODY");
+                    throw new JsonParseException("[TieredNeo]: EquipmentSlot unknown: '" + slotName + "'. Valid "
+                            + "values: MAINHAND, OFFHAND, FEET, LEGS, CHEST, HEAD, BODY");
         };
     }
 }

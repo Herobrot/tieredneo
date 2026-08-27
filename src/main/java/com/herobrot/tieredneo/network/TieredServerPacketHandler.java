@@ -15,42 +15,31 @@ public class TieredServerPacketHandler {
     public static void handleReforgeScreen(ReforgeScreenPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (!(context.player() instanceof ServerPlayer player)) return;
-
             BlockPos pos = resolveBlockPos(player);
             if (pos == null) return;
-
-            final BlockPos finalPos = pos;
-
-            if (payload.reforgingScreen()) {
-
+            if (payload.reforgingScreen())
                 player.openMenu(new SimpleMenuProvider((syncId, inv, p) -> new ReforgeMenu(syncId, inv,
-                        ContainerLevelAccess.create(p.level(), finalPos)),
-                        Component.translatable("screen.tieredneo" + ".container.reforge")),
-                        buf -> buf.writeBlockPos(finalPos));
-            } else {
-
+                                ContainerLevelAccess.create(p.level(), pos)),
+                                Component.translatable("screen.tieredneo.container.reforge")),
+                        buf -> buf.writeBlockPos(pos));
+            else
                 player.openMenu(new SimpleMenuProvider((syncId, inv, p) -> new AnvilMenu(syncId, inv,
-                        ContainerLevelAccess.create(p.level(), finalPos)),
-                        Component.translatable("screen.tieredneo" + ".container.repair")));
-            }
+                        ContainerLevelAccess.create(p.level(), pos)),
+                        Component.translatable("screen.tieredneo.container.repair")));
         });
     }
 
     public static void handleReforgeRequest(ReforgeRequestPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
-            if (context.player().containerMenu instanceof ReforgeMenu reforgeMenu) {
+            if (context.player().containerMenu instanceof ReforgeMenu reforgeMenu)
                 reforgeMenu.reforge();
-            }
         });
     }
 
     private static BlockPos resolveBlockPos(ServerPlayer player) {
-        if (player.containerMenu instanceof ReforgeMenu reforgeMenu) {
-            return reforgeMenu.getPos();
-        }
-        if (player.containerMenu instanceof AnvilMenu anvilMenu) {
+        if (player.containerMenu instanceof ReforgeMenu reforgeMenu) return reforgeMenu.getPos();
+        if (player.containerMenu instanceof AnvilMenu anvilMenu)
             return anvilMenu.access.evaluate((level, pos) -> pos).orElse(null);
-        }
         return null;
     }
 }

@@ -2,6 +2,7 @@ package com.herobrot.tieredneo.api;
 
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -15,10 +16,10 @@ public class PotentialAttribute {
     public PotentialAttribute(String id, List<ItemVerifier> verifiers, int weight, Style style,
                               List<AttributeTemplate> attributes) {
         this.id = id;
-        this.verifiers = verifiers;
+        this.verifiers = verifiers != null ? List.copyOf(verifiers) : List.of();
         this.weight = weight;
         this.style = style;
-        this.attributes = attributes;
+        this.attributes = attributes != null ? List.copyOf(attributes) : List.of();
     }
 
     public String getID() {return id;}
@@ -31,11 +32,8 @@ public class PotentialAttribute {
 
     public List<AttributeTemplate> getAttributes() {return attributes;}
 
-    public boolean isValid(Item item) {
-        if (verifiers == null || verifiers.isEmpty()) return false;
-        for (ItemVerifier verifier : verifiers) {
-            if (verifier.isValid(item)) return true;
-        }
-        return false;
+    public boolean isValid(@NotNull Item item) {
+        if (verifiers.isEmpty()) return false;
+        return verifiers.stream().anyMatch(verifier -> verifier.isValid(item));
     }
 }

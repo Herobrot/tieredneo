@@ -24,15 +24,13 @@ public final class CustomEntityAttributes {
 
     private CustomEntityAttributes() {}
 
-    public static void register(IEventBus modEventBus) {
-        ATTRIBUTES.register(modEventBus);
-    }
+    public static void register(IEventBus modEventBus) { ATTRIBUTES.register(modEventBus); }
 
-    public static Holder<Attribute> digSpeed() {return DIG_SPEED;}
+    public static Holder<Attribute> digSpeed() { return DIG_SPEED; }
 
-    public static Holder<Attribute> critChance() {return CRIT_CHANCE;}
+    public static Holder<Attribute> critChance() { return CRIT_CHANCE; }
 
-    public static Holder<Attribute> durable() {return DURABLE;}
+    public static Holder<Attribute> durable() { return DURABLE; }
 
-    public static Holder<Attribute> rangeAttackDamage() {return RANGE_ATTACK_DAMAGE;}
+    public static Holder<Attribute> rangeAttackDamage() { return RANGE_ATTACK_DAMAGE; }
 }

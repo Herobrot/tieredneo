@@ -1,7 +1,7 @@
 package com.herobrot.tieredneo.mixin;
 
 import com.herobrot.tieredneo.api.ModifierUtils;
-import com.herobrot.tieredneo.config.ConfigInit;
+import com.herobrot.tieredneo.init.ConfigInit;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingMenu;
@@ -23,27 +23,21 @@ public class MenuShiftClickMixin {
     @SuppressWarnings({"resource", "PatternVariableCanNeverMatch", "ConstantConditions"})
     private void onQuickMoveStack(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
         if (player.level().isClientSide) return;
-
         Object menu = this;
-
         switch (menu) {
             case CraftingMenu craftingMenu when index == 0 -> {
-                if (ConfigInit.CONFIG.craftingModifier) {
+                if (ConfigInit.CONFIG.craftingModifier)
                     tieredneo_1_21_1$applyTierToSlot(craftingMenu.slots.getFirst(), player);
-                }
             }
             case InventoryMenu inventoryMenu when index == 0 -> {
-                if (ConfigInit.CONFIG.craftingModifier) {
+                if (ConfigInit.CONFIG.craftingModifier)
                     tieredneo_1_21_1$applyTierToSlot(inventoryMenu.slots.getFirst(), player);
-                }
             }
             case MerchantMenu merchantMenu when index == 2 -> {
-                if (ConfigInit.CONFIG.merchantModifier) {
+                if (ConfigInit.CONFIG.merchantModifier)
                     tieredneo_1_21_1$applyTierToSlot(merchantMenu.slots.get(2), player);
-                }
             }
-            default -> {
-            }
+            default -> {}
         }
     }
 

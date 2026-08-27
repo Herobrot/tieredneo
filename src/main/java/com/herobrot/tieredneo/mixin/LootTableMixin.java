@@ -18,14 +18,10 @@ public class LootTableMixin {
     private void onGetRandomItems(LootContext context, CallbackInfoReturnable<ObjectArrayList<ItemStack>> cir) {
         if (ConfigInit.CONFIG.lootContainerModifier) {
             ObjectArrayList<ItemStack> generatedLoot = cir.getReturnValue();
-
-            if (generatedLoot != null && !generatedLoot.isEmpty()) {
-                for (ItemStack stack : generatedLoot) {
-                    if (!stack.isEmpty()) {
+            if (generatedLoot != null && !generatedLoot.isEmpty())
+                for (ItemStack stack : generatedLoot)
+                    if (!stack.isEmpty())
                         ModifierUtils.setItemStackAttribute(null, stack, false);
-                    }
-                }
-            }
         }
     }
 }

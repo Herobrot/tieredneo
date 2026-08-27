@@ -8,10 +8,10 @@
     "MenuShiftClickMixin",
     "MerchantResultSlotMixin"
   ],
-  "client": [
-    "MouseHandlerAccessor"
-  ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "AbstractContainerScreenMixin"
+  ]
 }

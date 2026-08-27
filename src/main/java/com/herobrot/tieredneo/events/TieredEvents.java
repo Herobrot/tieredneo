@@ -1,12 +1,16 @@
 package com.herobrot.tieredneo.events;
 
+import com.herobrot.heroslib.config.ConfigSyncHelper;
+import com.herobrot.heroslib.network.GenericConfigSyncPayload;
 import com.herobrot.tieredneo.TieredNeo;
 import com.herobrot.tieredneo.api.AttributeTemplate;
 import com.herobrot.tieredneo.api.ModifierUtils;
 import com.herobrot.tieredneo.api.PotentialAttribute;
 import com.herobrot.tieredneo.api.TierDataComponent;
 import com.herobrot.tieredneo.command.CommandInit;
-import com.herobrot.tieredneo.network.TieredNetwork;
+import com.herobrot.tieredneo.init.ConfigInit;
+import com.herobrot.tieredneo.init.NetworkInit;
+import com.herobrot.tieredneo.init.RegistrationInit;
 import com.herobrot.tieredneo.network.payload.AttributeSyncPayload;
 import com.herobrot.tieredneo.network.payload.HealthSyncPayload;
 import com.herobrot.tieredneo.network.payload.ReforgeItemSyncPayload;
@@ -18,6 +22,7 @@ import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = TieredNeo.MODID)
 public class TieredEvents {
@@ -25,7 +30,7 @@ public class TieredEvents {
     public static void onAddReloadListeners(AddReloadListenerEvent event) {
         event.addListener(TieredNeo.ATTRIBUTE_DATA_LOADER);
         event.addListener(TieredNeo.REFORGE_DATA_LOADER);
-        TieredNeo.LOGGER.debug("[TieredNeo] Registered data reload listeners.");
+        TieredNeo.LOGGER.debug("[TieredNeo]: Registered data reload listeners.");
     }
 
     @SubscribeEvent
@@ -45,25 +50,21 @@ public class TieredEvents {
                 sendSyncPackets(player);
                 ModifierUtils.updateInventoryComponents(player.getInventory());
             });
-            TieredNeo.LOGGER.info("[TieredNeo] Datapack reload — synced {} players.",
+            TieredNeo.LOGGER.info("[TieredNeo]: Datapack reload — synced {} players.",
                     event.getPlayerList().getPlayers().size());
         }
     }
 
     @SubscribeEvent
     public static void onItemAttributeModifier(ItemAttributeModifierEvent event) {
-        TierDataComponent tierData = event.getItemStack().get(TieredNeo.TIER_TYPE());
-        if (tierData == null || tierData.isPresent()) return;
-
+        TierDataComponent tierData = event.getItemStack().get(RegistrationInit.getTierType());
+        if (tierData == null || tierData.isEmpty()) return;
         PotentialAttribute attribute = TieredNeo.ATTRIBUTE_DATA_LOADER.getItemAttributes().get(tierData.tierId());
         if (attribute == null) return;
-
         for (AttributeTemplate template : attribute.getAttributes()) {
             String typeId = template.getAttributeTypeID();
-            if (typeId.equals("tiered:generic.durable") || typeId.equals("tieredneo:generic.durable")) {
+            if (typeId.equals(AttributeTemplate.DURABLE_ID) || typeId.equals(AttributeTemplate.LEGACY_DURABLE_ID))
                 continue;
-            }
-
             template.applyModifiersToEvent(event);
         }
     }
@@ -74,8 +75,14 @@ public class TieredEvents {
     }
 
     private static void sendSyncPackets(ServerPlayer player) {
-        TieredNetwork.sendToPlayer(player, AttributeSyncPayload.fromLoader(TieredNeo.ATTRIBUTE_DATA_LOADER));
-        TieredNetwork.sendToPlayer(player, ReforgeItemSyncPayload.fromLoader(TieredNeo.REFORGE_DATA_LOADER));
-        TieredNetwork.sendToPlayer(player, new HealthSyncPayload(player.getHealth()));
+        NetworkInit.sendToPlayer(player, AttributeSyncPayload.fromLoader(TieredNeo.ATTRIBUTE_DATA_LOADER));
+        NetworkInit.sendToPlayer(player, ReforgeItemSyncPayload.fromLoader(TieredNeo.REFORGE_DATA_LOADER));
+        NetworkInit.sendToPlayer(player, new HealthSyncPayload(player.getHealth()));
+        try {
+            String cleanJson = ConfigSyncHelper.SYNC_GSON.toJson(ConfigInit.CONFIG);
+            PacketDistributor.sendToPlayer(player, new GenericConfigSyncPayload(TieredNeo.MODID, cleanJson));
+        } catch (Exception e) {
+            TieredNeo.LOGGER.error("[TieredNeo]: Error synchronizing configuration with the client {}", player.getScoreboardName(), e);
+        }
     }
 }

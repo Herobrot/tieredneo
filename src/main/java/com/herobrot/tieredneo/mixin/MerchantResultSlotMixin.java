@@ -1,7 +1,7 @@
 package com.herobrot.tieredneo.mixin;
 
 import com.herobrot.tieredneo.api.ModifierUtils;
-import com.herobrot.tieredneo.config.ConfigInit;
+import com.herobrot.tieredneo.init.ConfigInit;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MerchantResultSlot;

@@ -22,25 +22,18 @@ public class ItemVerifier {
 
     public boolean isValid(Item item) {
         if (type == null || value == null || item == null) return false;
-
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
-
         return switch (type.toLowerCase()) {
-
             case "item", "id" -> itemId.toString().equals(value);
-
             case "tag" -> {
                 ResourceLocation tagRL = ResourceLocation.tryParse(value);
                 if (tagRL == null) yield false;
-
                 TagKey<Item> tagKey = TagKey.create(Registries.ITEM, tagRL);
                 yield BuiltInRegistries.ITEM.wrapAsHolder(item).is(tagKey);
             }
-
             case "namespace" -> itemId.getNamespace().equals(value);
             case "contains" -> itemId.getPath().contains(value);
             case "startswith" -> itemId.toString().startsWith(value);
-
             default -> false;
         };
     }

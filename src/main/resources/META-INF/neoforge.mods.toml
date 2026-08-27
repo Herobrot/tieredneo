@@ -37,3 +37,11 @@ type = "required"
 versionRange = "[15.0.0,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "heroslib"
+type = "required"
+versionRange = "[1.1.2,)"
+ordering = "AFTER"
+side = "BOTH"
+
