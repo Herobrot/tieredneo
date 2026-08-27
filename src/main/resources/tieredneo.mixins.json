@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.herobrot.tieredneo.mixin",
+  "plugin": "com.herobrot.tieredneo.mixin.TieredNeoMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "LootTableMixin",
@@ -12,6 +13,7 @@
     "defaultRequire": 1
   },
   "client": [
-    "AbstractContainerScreenMixin"
+    "AbstractContainerScreenMixin",
+    "compat.easyanvils.ModAnvilScreenMixin"
   ]
 }

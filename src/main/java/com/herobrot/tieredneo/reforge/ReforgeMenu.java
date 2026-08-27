@@ -21,6 +21,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -108,7 +109,10 @@ public class ReforgeMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return stillValid(this.access, player, net.minecraft.world.level.block.Blocks.ANVIL);
+        return this.access.evaluate((level, pos) -> {
+            boolean isAnvil = level.getBlockState(pos).getBlock() instanceof AnvilBlock;
+            return isAnvil && player.canInteractWithBlock(pos, 4.0);
+        }, true);
     }
 
     @Override

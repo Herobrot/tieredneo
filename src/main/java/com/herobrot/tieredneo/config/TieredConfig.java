@@ -28,6 +28,9 @@ public class TieredConfig implements ConfigData {
     public float reforgeModifier = 0.9F;
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip
+    public float herosLevelsReforgeModifier = 0.01F;
+    @ConfigEntry.Category("general")
+    @ConfigEntry.Gui.Tooltip
     public float luckReforgeModifier = 0.02F;
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip
